@@ -56,6 +56,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 		<html lang={"en"}>
 			<head>
 				<HeadContent />
+				<title>Tanstack Demo</title>
 			</head>
 			<body>
 				<div className="p-2 flex gap-2 text-lg">
