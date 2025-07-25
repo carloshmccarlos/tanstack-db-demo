@@ -1,0 +1,27 @@
+[
+  {
+    "id": "1",
+    "question": "Why don't keyboards sleep?",
+    "answer": "Because they have two shifts"
+  },
+  {
+    "id": "2",
+    "question": "Are you a RESTful API?",
+    "answer": "Because you GET my attention, PUT some love, POST the cutest smile, and DELETE my bad day"
+  },
+  {
+    "id": "3",
+    "question": "I used to know a joke about Java",
+    "answer": "But I ran out of memory."
+  },
+  {
+    "id": "4",
+    "question": "Why do Front-End Developers eat lunch alone?",
+    "answer": "Because, they don't know how to join tables."
+  },
+  {
+    "id": "5",
+    "question": "I am declaring a war.",
+    "answer": "var war;"
+  }
+]
