@@ -1,10 +1,6 @@
-import type { Jokes } from "@/validation/types.ts";
+import type { Jokes } from "~/validation/types";
 
-interface JokesListProps {
-	jokes: Jokes;
-}
-
-export function JokesList({ jokes }: JokesListProps) {
+export function JokesList({ jokes }: { jokes: Jokes }) {
 	if (!jokes || jokes.length === 0) {
 		return <p className={"text-gray-500 italic"}>No jokes found</p>;
 	}
