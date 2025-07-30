@@ -1,5 +1,5 @@
 import { useRouter } from "@tanstack/react-router";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import { toast } from "sonner";
 import { useAppForm } from "~/components/form/hook";
 import { addJoke, updateJoke } from "~/serverFn/jokesServerFn";
@@ -26,7 +26,7 @@ export default function JokeForm({ joke }: Props) {
 		},
 		onSubmit: async ({ value }) => {
 			try {
-				let id = "";
+				let id: string;
 				if (joke) {
 					const updatedValue = {
 						...value,

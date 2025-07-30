@@ -1,6 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
-import { methods } from "netlify";
 import { v4 as uuidv4 } from "uuid";
 import * as v from "valibot";
 import { db } from "~/db/client";
