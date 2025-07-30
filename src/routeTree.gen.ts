@@ -8,39 +8,148 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { createServerRootRoute } from '@tanstack/react-start/server'
 
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as JokesRouteRouteImport } from './routes/jokes/route'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as JokesIndexRouteImport } from './routes/jokes/index'
+import { Route as AuthIndexRouteImport } from './routes/auth/index'
+import { Route as JokesNewRouteImport } from './routes/jokes/new'
+import { Route as JokesIdRouteImport } from './routes/jokes/$id'
+import { Route as AuthResultRouteImport } from './routes/auth/result'
+import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
+
+const rootServerRouteImport = createServerRootRoute()
+
+const JokesRouteRoute = JokesRouteRouteImport.update({
+  id: '/jokes',
+  path: '/jokes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JokesIndexRoute = JokesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => JokesRouteRoute,
+} as any)
+const AuthIndexRoute = AuthIndexRouteImport.update({
+  id: '/auth/',
+  path: '/auth/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JokesNewRoute = JokesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => JokesRouteRoute,
+} as any)
+const JokesIdRoute = JokesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => JokesRouteRoute,
+} as any)
+const AuthResultRoute = AuthResultRouteImport.update({
+  id: '/auth/result',
+  path: '/auth/result',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootServerRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/jokes': typeof JokesRouteRouteWithChildren
+  '/auth/result': typeof AuthResultRoute
+  '/jokes/$id': typeof JokesIdRoute
+  '/jokes/new': typeof JokesNewRoute
+  '/auth': typeof AuthIndexRoute
+  '/jokes/': typeof JokesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth/result': typeof AuthResultRoute
+  '/jokes/$id': typeof JokesIdRoute
+  '/jokes/new': typeof JokesNewRoute
+  '/auth': typeof AuthIndexRoute
+  '/jokes': typeof JokesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/jokes': typeof JokesRouteRouteWithChildren
+  '/auth/result': typeof AuthResultRoute
+  '/jokes/$id': typeof JokesIdRoute
+  '/jokes/new': typeof JokesNewRoute
+  '/auth/': typeof AuthIndexRoute
+  '/jokes/': typeof JokesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/jokes'
+    | '/auth/result'
+    | '/jokes/$id'
+    | '/jokes/new'
+    | '/auth'
+    | '/jokes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/auth/result' | '/jokes/$id' | '/jokes/new' | '/auth' | '/jokes'
+  id:
+    | '__root__'
+    | '/'
+    | '/jokes'
+    | '/auth/result'
+    | '/jokes/$id'
+    | '/jokes/new'
+    | '/auth/'
+    | '/jokes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  JokesRouteRoute: typeof JokesRouteRouteWithChildren
+  AuthResultRoute: typeof AuthResultRoute
+  AuthIndexRoute: typeof AuthIndexRoute
+}
+export interface FileServerRoutesByFullPath {
+  '/api/auth/$': typeof ApiAuthSplatServerRoute
+}
+export interface FileServerRoutesByTo {
+  '/api/auth/$': typeof ApiAuthSplatServerRoute
+}
+export interface FileServerRoutesById {
+  __root__: typeof rootServerRouteImport
+  '/api/auth/$': typeof ApiAuthSplatServerRoute
+}
+export interface FileServerRouteTypes {
+  fileServerRoutesByFullPath: FileServerRoutesByFullPath
+  fullPaths: '/api/auth/$'
+  fileServerRoutesByTo: FileServerRoutesByTo
+  to: '/api/auth/$'
+  id: '__root__' | '/api/auth/$'
+  fileServerRoutesById: FileServerRoutesById
+}
+export interface RootServerRouteChildren {
+  ApiAuthSplatServerRoute: typeof ApiAuthSplatServerRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/jokes': {
+      id: '/jokes'
+      path: '/jokes'
+      fullPath: '/jokes'
+      preLoaderRoute: typeof JokesRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +157,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/jokes/': {
+      id: '/jokes/'
+      path: '/'
+      fullPath: '/jokes/'
+      preLoaderRoute: typeof JokesIndexRouteImport
+      parentRoute: typeof JokesRouteRoute
+    }
+    '/auth/': {
+      id: '/auth/'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jokes/new': {
+      id: '/jokes/new'
+      path: '/new'
+      fullPath: '/jokes/new'
+      preLoaderRoute: typeof JokesNewRouteImport
+      parentRoute: typeof JokesRouteRoute
+    }
+    '/jokes/$id': {
+      id: '/jokes/$id'
+      path: '/$id'
+      fullPath: '/jokes/$id'
+      preLoaderRoute: typeof JokesIdRouteImport
+      parentRoute: typeof JokesRouteRoute
+    }
+    '/auth/result': {
+      id: '/auth/result'
+      path: '/auth/result'
+      fullPath: '/auth/result'
+      preLoaderRoute: typeof AuthResultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
+}
+declare module '@tanstack/react-start/server' {
+  interface ServerFileRoutesByPath {
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
   }
 }
 
+interface JokesRouteRouteChildren {
+  JokesIdRoute: typeof JokesIdRoute
+  JokesNewRoute: typeof JokesNewRoute
+  JokesIndexRoute: typeof JokesIndexRoute
+}
+
+const JokesRouteRouteChildren: JokesRouteRouteChildren = {
+  JokesIdRoute: JokesIdRoute,
+  JokesNewRoute: JokesNewRoute,
+  JokesIndexRoute: JokesIndexRoute,
+}
+
+const JokesRouteRouteWithChildren = JokesRouteRoute._addFileChildren(
+  JokesRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  JokesRouteRoute: JokesRouteRouteWithChildren,
+  AuthResultRoute: AuthResultRoute,
+  AuthIndexRoute: AuthIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+const rootServerRouteChildren: RootServerRouteChildren = {
+  ApiAuthSplatServerRoute: ApiAuthSplatServerRoute,
+}
+export const serverRouteTree = rootServerRouteImport
+  ._addFileChildren(rootServerRouteChildren)
+  ._addFileTypes<FileServerRouteTypes>()

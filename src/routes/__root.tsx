@@ -68,7 +68,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 						activeOptions={{ exact: true }}
 					>
 						Home
-					</Link>{" "}
+					</Link>
+					<Link
+						to="/jokes"
+						activeProps={{
+							className: "font-bold",
+						}}
+						activeOptions={{ exact: true }}
+					>
+						Jokes
+					</Link>
 				</div>
 				<hr />
 				{children}

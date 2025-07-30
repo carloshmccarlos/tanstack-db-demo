@@ -1,34 +1,51 @@
 import { useRouter } from "@tanstack/react-router";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { toast } from "sonner";
 import { useAppForm } from "~/components/form/hook";
-import { addJoke } from "~/serverFn/jokesServerFn";
+import { addJoke, updateJoke } from "~/serverFn/jokesServerFn";
 import { addJokeSchema } from "~/validation/schema";
+import type { JokeSelect } from "~/validation/types";
 
-export default function JokeForm() {
+interface Props {
+	joke?: JokeSelect;
+}
+
+export default function JokeForm({ joke }: Props) {
 	const router = useRouter();
+
+	const label = joke ? "Update Joke" : "Add Joke";
+	const operation = joke ? "update" : "add";
 
 	const form = useAppForm({
 		defaultValues: {
-			question: "",
-			answer: "",
+			question: joke?.question || "",
+			answer: joke?.answer || "",
 		},
 		validators: {
 			onChange: addJokeSchema,
 		},
 		onSubmit: async ({ value }) => {
 			try {
-				const result = await addJoke({ data: value });
+				let id = "";
+				if (joke) {
+					const updatedValue = {
+						...value,
+						id: joke.id,
+					};
+					id = await updateJoke({ data: updatedValue });
+				} else {
+					id = await addJoke({ data: value });
+				}
 
-				if (result) {
-					toast.success(`Joke added successfully: ${JSON.stringify(result)}`);
+				if (id) {
+					toast.success(`Joke ${operation} successfully: ${id}`);
 					form.reset();
 				} else {
-					toast.error("Failed to add joke. Please try again.");
+					toast.error(`Failed to ${operation} joke. Please try again.`);
 				}
 			} catch (error) {
-				console.error("Failed to add joke:", error);
-				toast.error("Failed to add joke. Please try again.");
+				console.error(`Failed to ${operation} joke:`, error);
+				toast.error(`Failed to ${operation} joke. Please try again.`);
 			} finally {
 				router.invalidate();
 			}
@@ -65,7 +82,7 @@ export default function JokeForm() {
 
 				<form.AppForm>
 					<div className="flex justify-end">
-						<form.SubscribeButton label="Submit Joke" variant="default" />
+						<form.SubscribeButton label={label} variant="default" />
 					</div>
 				</form.AppForm>
 			</form>
