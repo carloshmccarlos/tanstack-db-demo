@@ -47,7 +47,7 @@ export function TextField({
 					)}
 					<Input
 						type={type}
-						value={field.state.value}
+						value={field.state.value || ""}
 						onChange={(e) => field.handleChange(e.target.value)}
 						onBlur={field.handleBlur}
 						placeholder={placeholder}
@@ -81,7 +81,7 @@ export function PasswordField({
 					</div>
 					<Input
 						type={showPassword ? "text" : "password"}
-						value={field.state.value}
+						value={field.state.value || ""}
 						onChange={(e) => field.handleChange(e.target.value)}
 						onBlur={field.handleBlur}
 						placeholder={placeholder}

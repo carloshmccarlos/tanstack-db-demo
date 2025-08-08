@@ -56,6 +56,11 @@ export const userLoginSchema = v.object({
 	password: v.pipe(v.string(), v.nonEmpty("Please enter a password")),
 });
 
-export const authSearchParams = v.object({
+export const authSearchSchema = v.object({
 	type: v.picklist(["login", "register"]),
+});
+
+export const likeJokeSchema = v.object({
+	userId: v.string(),
+	jokeId: v.string(),
 });

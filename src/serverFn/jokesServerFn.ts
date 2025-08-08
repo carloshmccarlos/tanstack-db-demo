@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 import * as v from "valibot";
 import { db } from "~/db/client";
-import { jokes } from "~/db/schema";
+import { joke } from "~/db/schema";
 import { addJokeSchema, jokeSchema } from "~/validation/schema";
 import type { JokeInput, JokeInsert, JokeUpdate } from "~/validation/types";
 
@@ -15,7 +15,7 @@ export const getJokes = createServerFn({
 	method: "GET",
 }).handler(async () => {
 	try {
-		return await db.select().from(jokes);
+		return await db.select().from(joke);
 	} catch (error) {
 		console.error("Failed to read jokes:", error);
 		return [];
@@ -28,7 +28,7 @@ export const getJokeById = createServerFn({
 	.validator(v.string("Your id must be a string"))
 	.handler(async ({ data }) => {
 		try {
-			const result = await db.select().from(jokes).where(eq(jokes.id, data));
+			const result = await db.select().from(joke).where(eq(joke.id, data));
 			if (result.length === 0) {
 				return null;
 			}
@@ -51,9 +51,9 @@ export const addJoke = createServerFn({
 			};
 
 			const resultId = await db
-				.insert(jokes)
+				.insert(joke)
 				.values(newJoke)
-				.returning({ id: jokes.id });
+				.returning({ id: joke.id });
 			return resultId[0].id;
 		} catch (error) {
 			console.error("Failed to add joke:", error);
@@ -69,8 +69,8 @@ export const updateJoke = createServerFn({
 		try {
 			const existedJoke = await db
 				.select()
-				.from(jokes)
-				.where(eq(jokes.id, data.id));
+				.from(joke)
+				.where(eq(joke.id, data.id));
 
 			if (!existedJoke) {
 				console.error("Joke does not exist.");
@@ -84,10 +84,10 @@ export const updateJoke = createServerFn({
 			};
 
 			const result = await db
-				.update(jokes)
+				.update(joke)
 				.set(updatedJoke)
-				.where(eq(jokes.id, data.id))
-				.returning({ id: jokes.id });
+				.where(eq(joke.id, data.id))
+				.returning({ id: joke.id });
 
 			return result[0].id;
 		} catch (error) {

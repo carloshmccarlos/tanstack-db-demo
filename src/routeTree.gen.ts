@@ -18,6 +18,7 @@ import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as JokesNewRouteImport } from './routes/jokes/new'
 import { Route as JokesIdRouteImport } from './routes/jokes/$id'
 import { Route as AuthResultRouteImport } from './routes/auth/result'
+import { ServerRoute as ApiLikedJokeServerRouteImport } from './routes/api/liked-joke'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -56,6 +57,11 @@ const AuthResultRoute = AuthResultRouteImport.update({
   id: '/auth/result',
   path: '/auth/result',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLikedJokeServerRoute = ApiLikedJokeServerRouteImport.update({
+  id: '/api/liked-joke',
+  path: '/api/liked-joke',
+  getParentRoute: () => rootServerRouteImport,
 } as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
@@ -120,24 +126,28 @@ export interface RootRouteChildren {
   AuthIndexRoute: typeof AuthIndexRoute
 }
 export interface FileServerRoutesByFullPath {
+  '/api/liked-joke': typeof ApiLikedJokeServerRoute
   '/api/auth/$': typeof ApiAuthSplatServerRoute
 }
 export interface FileServerRoutesByTo {
+  '/api/liked-joke': typeof ApiLikedJokeServerRoute
   '/api/auth/$': typeof ApiAuthSplatServerRoute
 }
 export interface FileServerRoutesById {
   __root__: typeof rootServerRouteImport
+  '/api/liked-joke': typeof ApiLikedJokeServerRoute
   '/api/auth/$': typeof ApiAuthSplatServerRoute
 }
 export interface FileServerRouteTypes {
   fileServerRoutesByFullPath: FileServerRoutesByFullPath
-  fullPaths: '/api/auth/$'
+  fullPaths: '/api/liked-joke' | '/api/auth/$'
   fileServerRoutesByTo: FileServerRoutesByTo
-  to: '/api/auth/$'
-  id: '__root__' | '/api/auth/$'
+  to: '/api/liked-joke' | '/api/auth/$'
+  id: '__root__' | '/api/liked-joke' | '/api/auth/$'
   fileServerRoutesById: FileServerRoutesById
 }
 export interface RootServerRouteChildren {
+  ApiLikedJokeServerRoute: typeof ApiLikedJokeServerRoute
   ApiAuthSplatServerRoute: typeof ApiAuthSplatServerRoute
 }
 
@@ -196,6 +206,13 @@ declare module '@tanstack/react-router' {
 }
 declare module '@tanstack/react-start/server' {
   interface ServerFileRoutesByPath {
+    '/api/liked-joke': {
+      id: '/api/liked-joke'
+      path: '/api/liked-joke'
+      fullPath: '/api/liked-joke'
+      preLoaderRoute: typeof ApiLikedJokeServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -232,6 +249,7 @@ export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 const rootServerRouteChildren: RootServerRouteChildren = {
+  ApiLikedJokeServerRoute: ApiLikedJokeServerRoute,
   ApiAuthSplatServerRoute: ApiAuthSplatServerRoute,
 }
 export const serverRouteTree = rootServerRouteImport
