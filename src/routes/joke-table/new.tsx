@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import JokeForm from "~/components/JokeForm";
 
-export const Route = createFileRoute("/jokes/new")({
+export const Route = createFileRoute("/joke-table/new")({
 	component: RouteComponent,
 });
 

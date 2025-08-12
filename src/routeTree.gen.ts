@@ -12,12 +12,14 @@ import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as JokesRouteRouteImport } from './routes/jokes/route'
-import { Route as AdminRouteRouteImport } from './routes/admin/route'
+import { Route as JokeTableRouteRouteImport } from './routes/joke-table/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as JokesIndexRouteImport } from './routes/jokes/index'
+import { Route as JokeTableIndexRouteImport } from './routes/joke-table/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
-import { Route as JokesNewRouteImport } from './routes/jokes/new'
 import { Route as JokesIdRouteImport } from './routes/jokes/$id'
+import { Route as JokeTableUpdateRouteImport } from './routes/joke-table/update'
+import { Route as JokeTableNewRouteImport } from './routes/joke-table/new'
 import { Route as AuthResultRouteImport } from './routes/auth/result'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
@@ -28,9 +30,9 @@ const JokesRouteRoute = JokesRouteRouteImport.update({
   path: '/jokes',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRouteRoute = AdminRouteRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const JokeTableRouteRoute = JokeTableRouteRouteImport.update({
+  id: '/joke-table',
+  path: '/joke-table',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,20 +45,30 @@ const JokesIndexRoute = JokesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => JokesRouteRoute,
 } as any)
+const JokeTableIndexRoute = JokeTableIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => JokeTableRouteRoute,
+} as any)
 const AuthIndexRoute = AuthIndexRouteImport.update({
   id: '/auth/',
   path: '/auth/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const JokesNewRoute = JokesNewRouteImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => JokesRouteRoute,
-} as any)
 const JokesIdRoute = JokesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => JokesRouteRoute,
+} as any)
+const JokeTableUpdateRoute = JokeTableUpdateRouteImport.update({
+  id: '/update',
+  path: '/update',
+  getParentRoute: () => JokeTableRouteRoute,
+} as any)
+const JokeTableNewRoute = JokeTableNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => JokeTableRouteRoute,
 } as any)
 const AuthResultRoute = AuthResultRouteImport.update({
   id: '/auth/result',
@@ -71,69 +83,79 @@ const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteRoute
+  '/joke-table': typeof JokeTableRouteRouteWithChildren
   '/jokes': typeof JokesRouteRouteWithChildren
   '/auth/result': typeof AuthResultRoute
+  '/joke-table/new': typeof JokeTableNewRoute
+  '/joke-table/update': typeof JokeTableUpdateRoute
   '/jokes/$id': typeof JokesIdRoute
-  '/jokes/new': typeof JokesNewRoute
   '/auth': typeof AuthIndexRoute
+  '/joke-table/': typeof JokeTableIndexRoute
   '/jokes/': typeof JokesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteRoute
   '/auth/result': typeof AuthResultRoute
+  '/joke-table/new': typeof JokeTableNewRoute
+  '/joke-table/update': typeof JokeTableUpdateRoute
   '/jokes/$id': typeof JokesIdRoute
-  '/jokes/new': typeof JokesNewRoute
   '/auth': typeof AuthIndexRoute
+  '/joke-table': typeof JokeTableIndexRoute
   '/jokes': typeof JokesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteRoute
+  '/joke-table': typeof JokeTableRouteRouteWithChildren
   '/jokes': typeof JokesRouteRouteWithChildren
   '/auth/result': typeof AuthResultRoute
+  '/joke-table/new': typeof JokeTableNewRoute
+  '/joke-table/update': typeof JokeTableUpdateRoute
   '/jokes/$id': typeof JokesIdRoute
-  '/jokes/new': typeof JokesNewRoute
   '/auth/': typeof AuthIndexRoute
+  '/joke-table/': typeof JokeTableIndexRoute
   '/jokes/': typeof JokesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin'
+    | '/joke-table'
     | '/jokes'
     | '/auth/result'
+    | '/joke-table/new'
+    | '/joke-table/update'
     | '/jokes/$id'
-    | '/jokes/new'
     | '/auth'
+    | '/joke-table/'
     | '/jokes/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/auth/result'
+    | '/joke-table/new'
+    | '/joke-table/update'
     | '/jokes/$id'
-    | '/jokes/new'
     | '/auth'
+    | '/joke-table'
     | '/jokes'
   id:
     | '__root__'
     | '/'
-    | '/admin'
+    | '/joke-table'
     | '/jokes'
     | '/auth/result'
+    | '/joke-table/new'
+    | '/joke-table/update'
     | '/jokes/$id'
-    | '/jokes/new'
     | '/auth/'
+    | '/joke-table/'
     | '/jokes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRouteRoute: typeof AdminRouteRoute
+  JokeTableRouteRoute: typeof JokeTableRouteRouteWithChildren
   JokesRouteRoute: typeof JokesRouteRouteWithChildren
   AuthResultRoute: typeof AuthResultRoute
   AuthIndexRoute: typeof AuthIndexRoute
@@ -169,11 +191,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JokesRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteRouteImport
+    '/joke-table': {
+      id: '/joke-table'
+      path: '/joke-table'
+      fullPath: '/joke-table'
+      preLoaderRoute: typeof JokeTableRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -190,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JokesIndexRouteImport
       parentRoute: typeof JokesRouteRoute
     }
+    '/joke-table/': {
+      id: '/joke-table/'
+      path: '/'
+      fullPath: '/joke-table/'
+      preLoaderRoute: typeof JokeTableIndexRouteImport
+      parentRoute: typeof JokeTableRouteRoute
+    }
     '/auth/': {
       id: '/auth/'
       path: '/auth'
@@ -197,19 +226,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/jokes/new': {
-      id: '/jokes/new'
-      path: '/new'
-      fullPath: '/jokes/new'
-      preLoaderRoute: typeof JokesNewRouteImport
-      parentRoute: typeof JokesRouteRoute
-    }
     '/jokes/$id': {
       id: '/jokes/$id'
       path: '/$id'
       fullPath: '/jokes/$id'
       preLoaderRoute: typeof JokesIdRouteImport
       parentRoute: typeof JokesRouteRoute
+    }
+    '/joke-table/update': {
+      id: '/joke-table/update'
+      path: '/update'
+      fullPath: '/joke-table/update'
+      preLoaderRoute: typeof JokeTableUpdateRouteImport
+      parentRoute: typeof JokeTableRouteRoute
+    }
+    '/joke-table/new': {
+      id: '/joke-table/new'
+      path: '/new'
+      fullPath: '/joke-table/new'
+      preLoaderRoute: typeof JokeTableNewRouteImport
+      parentRoute: typeof JokeTableRouteRoute
     }
     '/auth/result': {
       id: '/auth/result'
@@ -232,15 +268,29 @@ declare module '@tanstack/react-start/server' {
   }
 }
 
+interface JokeTableRouteRouteChildren {
+  JokeTableNewRoute: typeof JokeTableNewRoute
+  JokeTableUpdateRoute: typeof JokeTableUpdateRoute
+  JokeTableIndexRoute: typeof JokeTableIndexRoute
+}
+
+const JokeTableRouteRouteChildren: JokeTableRouteRouteChildren = {
+  JokeTableNewRoute: JokeTableNewRoute,
+  JokeTableUpdateRoute: JokeTableUpdateRoute,
+  JokeTableIndexRoute: JokeTableIndexRoute,
+}
+
+const JokeTableRouteRouteWithChildren = JokeTableRouteRoute._addFileChildren(
+  JokeTableRouteRouteChildren,
+)
+
 interface JokesRouteRouteChildren {
   JokesIdRoute: typeof JokesIdRoute
-  JokesNewRoute: typeof JokesNewRoute
   JokesIndexRoute: typeof JokesIndexRoute
 }
 
 const JokesRouteRouteChildren: JokesRouteRouteChildren = {
   JokesIdRoute: JokesIdRoute,
-  JokesNewRoute: JokesNewRoute,
   JokesIndexRoute: JokesIndexRoute,
 }
 
@@ -250,7 +300,7 @@ const JokesRouteRouteWithChildren = JokesRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRouteRoute: AdminRouteRoute,
+  JokeTableRouteRoute: JokeTableRouteRouteWithChildren,
   JokesRouteRoute: JokesRouteRouteWithChildren,
   AuthResultRoute: AuthResultRoute,
   AuthIndexRoute: AuthIndexRoute,

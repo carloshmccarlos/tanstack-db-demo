@@ -19,14 +19,14 @@ export default function Header() {
 						</Link>
 
 						<Link
-							to="/admin"
+							to="/joke-table"
 							activeProps={{
 								className: "text-foreground font-semibold",
 							}}
 							activeOptions={{ exact: true }}
 							className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
 						>
-							Admin
+							Joke Table
 						</Link>
 					</div>
 

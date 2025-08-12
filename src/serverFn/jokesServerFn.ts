@@ -5,7 +5,12 @@ import * as v from "valibot";
 import { db } from "~/db/client";
 import { joke } from "~/db/schema";
 import { addJokeSchema, jokeSchema } from "~/validation/schema";
-import type { JokeInput, JokeInsert, JokeUpdate } from "~/validation/types";
+import type {
+	JokeInput,
+	JokeInsert,
+	JokeSelect,
+	JokeUpdate,
+} from "~/validation/types";
 
 /**
  * This file contains server functions for joke operations using Postgres database.
@@ -93,5 +98,19 @@ export const updateJoke = createServerFn({
 		} catch (error) {
 			console.error("Failed to update joke:", error);
 			return "";
+		}
+	});
+
+export const deleteJoke = createServerFn({
+	method: "POST",
+})
+	.validator(jokeSchema)
+	.handler(async ({ data }: { data: JokeSelect }) => {
+		try {
+			await db.delete(joke).where(eq(joke.id, data.id));
+			return true;
+		} catch (error) {
+			console.error("Failed to delete joke:", error);
+			return false;
 		}
 	});

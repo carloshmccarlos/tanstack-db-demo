@@ -31,10 +31,6 @@ export default function JokeDetail({ joke, userId }: Props) {
 
 	const removeLikedJoke = () => {
 		likedJokesCollection.delete(isLiked?.id || "");
-		// Always refetch after error or success:
-		// onSettled: () => {
-		//		queryClient.invalidateQueries({ queryKey: ["isLiked", joke.id] }).then();
-		// },
 	};
 
 	return (
@@ -47,7 +43,9 @@ export default function JokeDetail({ joke, userId }: Props) {
 							{joke.question}
 						</h1>
 						<div className="bg-gradient-to-r from-primary/10 to-secondary/10 p-6 rounded-lg border border-primary/20 relative overflow-hidden">
-							<div className="absolute top-2 right-2 text-2xl opacity-20">😂</div>
+							<div className="absolute top-2 right-2 text-2xl opacity-20">
+								😂
+							</div>
 							<p className="text-xl text-card-foreground font-medium leading-relaxed">
 								{joke.answer}
 							</p>
@@ -59,9 +57,10 @@ export default function JokeDetail({ joke, userId }: Props) {
 					<Button
 						variant={isLiked ? "default" : "outline"}
 						size={"lg"}
-						className={`group transition-all duration-200 ${isLiked 
-							? 'bg-red-500 hover:bg-red-600 text-white shadow-lg hover:shadow-red-500/25' 
-							: 'hover:bg-red-50 hover:border-red-200 hover:text-red-600'
+						className={`group transition-all duration-200 ${
+							isLiked
+								? "bg-red-500 hover:bg-red-600 text-white shadow-lg hover:shadow-red-500/25"
+								: "hover:bg-red-50 hover:border-red-200 hover:text-red-600"
 						}`}
 						disabled={isLoading}
 						onClick={isLiked ? removeLikedJoke : addLikedJoke}
@@ -73,7 +72,7 @@ export default function JokeDetail({ joke, userId }: Props) {
 								<HeartOff className="w-5 h-5 group-hover:scale-110 transition-transform" />
 							)}
 							<span className="font-medium">
-								{isLiked ? 'Liked!' : 'Like this joke'}
+								{isLiked ? "Liked!" : "Like this joke"}
 							</span>
 						</div>
 					</Button>

@@ -29,7 +29,7 @@ function RouteComponent() {
 	}
 
 	if (isClient) {
-		return <JokeDetail userId={userId} key={joke.id} joke={joke} />;
+		return <JokeDetail userId={userId || ""} key={joke.id} joke={joke} />;
 	}
 
 	return <p>Loading...</p>;

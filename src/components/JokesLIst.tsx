@@ -45,7 +45,7 @@ export function JokesList({ jokes }: { jokes: JokeSelect[] }) {
 				{jokes.map((joke: JokeSelect, index) => (
 					<Link
 						to={`/jokes/$id`}
-						params={(prev) => ({ ...prev, id: joke.id })}
+						params={(prev: JokeSelect) => ({ ...prev, id: joke.id })}
 						key={joke.id}
 						className="group block bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.02] hover:border-primary/50"
 						style={{ animationDelay: `${index * 100}ms` }}
