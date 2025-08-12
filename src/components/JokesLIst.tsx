@@ -4,39 +4,63 @@ import type { JokeSelect } from "~/validation/types";
 export function JokesList({ jokes }: { jokes: JokeSelect[] }) {
 	if (!jokes || jokes.length === 0) {
 		return (
-			<div className="text-center py-8">
-				<p className="text-gray-500 italic">No jokes found</p>
+			<div className="flex flex-col items-center justify-center py-16 px-4">
+				<div className="text-6xl mb-6">😅</div>
+				<h3 className="text-xl font-semibold text-muted-foreground mb-2">
+					No jokes yet!
+				</h3>
+				<p className="text-muted-foreground mb-6 text-center max-w-md">
+					Looks like the comedy club is empty. Be the first to share a joke!
+				</p>
 				<Link
 					to="/jokes/new"
-					className="inline-block mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+					className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
 				>
-					Add Your First Joke
+					✨ Add Your First Joke
 				</Link>
 			</div>
 		);
 	}
 
 	return (
-		<div className="space-y-4">
-			<div className="flex justify-between items-center mb-4">
-				<h2 className="text-xl font-semibold">Jokes Collection</h2>
+		<div className="space-y-6">
+			<div className="flex justify-between items-center">
+				<div>
+					<h2 className="text-2xl font-bold tracking-tight">
+						Jokes Collection
+					</h2>
+					<p className="text-muted-foreground">
+						Discover hilarious jokes from our community
+					</p>
+				</div>
 				<Link
 					to="/jokes/new"
-					className="px-3 py-1 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 transition-colors"
+					className="inline-flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-md font-medium hover:bg-secondary/80 transition-colors"
 				>
-					Add Joke
+					+ Add Joke
 				</Link>
 			</div>
 
-			<div className="space-y-3">
-				{jokes.map((joke: JokeSelect) => (
+			<div className="flex flex-col gap-2 justify-center">
+				{jokes.map((joke: JokeSelect, index) => (
 					<Link
 						to={`/jokes/$id`}
 						params={(prev) => ({ ...prev, id: joke.id })}
 						key={joke.id}
-						className="block border border-gray-200 bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+						className="group block bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.02] hover:border-primary/50"
+						style={{ animationDelay: `${index * 100}ms` }}
 					>
-						<p className="font-bold text-lg mb-2">{joke.question}</p>
+						<div className="flex items-start gap-3">
+							<div className="text-2xl">😂</div>
+							<div className="flex-1">
+								<p className="font-semibold text-card-foreground group-hover:text-primary transition-colors line-clamp-2">
+									{joke.question}
+								</p>
+								<p className="text-sm text-muted-foreground mt-2">
+									Click to see the punchline!
+								</p>
+							</div>
+						</div>
 					</Link>
 				))}
 			</div>
