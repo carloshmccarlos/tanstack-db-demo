@@ -1,5 +1,4 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import Header from "~/components/Header";
 import { JokesList } from "~/components/JokesLIst";
 import { getJokes } from "~/serverFn/jokesServerFn";
 
