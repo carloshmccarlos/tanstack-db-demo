@@ -4,18 +4,16 @@ import { v4 as uuidv4 } from "uuid";
 import * as v from "valibot";
 import { db } from "~/db/client";
 import { liked } from "~/db/schema";
-import { getUserIdMiddleWare } from "~/lib/middlewares";
 import { likeJokeSchema } from "~/validation/schema";
 import type { LikeJokeInput } from "~/validation/types";
 
 export const getLikedJokesByUser = createServerFn({
 	method: "GET",
 })
-	.middleware([getUserIdMiddleWare])
-	.handler(async ({ context }) => {
-		const userId = context.userId || "";
+	.validator(v.string())
+	.handler(async ({ data }: { data: string }) => {
 		try {
-			return await db.select().from(liked).where(eq(liked.userId, userId));
+			return await db.select().from(liked).where(eq(liked.userId, data));
 		} catch (error) {
 			console.error("Failed to get likes count:", error);
 			return [];

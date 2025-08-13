@@ -1,18 +1,11 @@
-import { QueryClientProvider } from "@tanstack/react-query";
-import {
-	createRootRoute,
-	HeadContent,
-	redirect,
-	Scripts,
-} from "@tanstack/react-router";
+import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type * as React from "react";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
 import Header from "~/components/Header";
 import { NotFound } from "~/components/NotFound";
 import { Toaster } from "~/components/ui/sonner";
-import { getSession } from "~/lib/auth/getSession";
-import { queryClient } from "~/lib/queryClient";
+import { getCachedSession } from "~/lib/auth/cached-session";
 // @ts-ignore
 import appCss from "~/styles/app.css?url";
 
@@ -25,9 +18,9 @@ export const Route = createRootRoute({
 	beforeLoad: async ({ location }): Promise<RootContext> => {
 		const pathname = location.pathname;
 
-		const { userId }: { userId: string | undefined } = await getSession();
+		const sessionData = await getCachedSession();
 
-		return { userId: userId, pathname: pathname };
+		return { userId: sessionData.userId, pathname: pathname };
 	},
 
 	loader: ({ context }) => {

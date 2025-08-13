@@ -1,5 +1,6 @@
 import { eq, useLiveQuery } from "@tanstack/react-db";
 import { Heart, HeartOff } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { likedJokesCollection } from "~/db/collections";
 import type { JokeSelect } from "~/validation/types";
@@ -62,7 +63,7 @@ export default function JokeDetail({ joke, userId }: Props) {
 								? "bg-red-500 hover:bg-red-600 text-white shadow-lg hover:shadow-red-500/25"
 								: "hover:bg-red-50 hover:border-red-200 hover:text-red-600"
 						}`}
-						disabled={isLoading}
+						disabled={isLoading || !userId}
 						onClick={isLiked ? removeLikedJoke : addLikedJoke}
 					>
 						<div className="flex items-center gap-2">

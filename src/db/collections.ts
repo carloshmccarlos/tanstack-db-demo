@@ -1,6 +1,6 @@
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { createCollection } from "@tanstack/react-db";
-import JokeForm from "~/components/JokeForm";
+import { getSessionUserId } from "~/lib/auth/cached-session";
 import { queryClient } from "~/lib/queryClient";
 import {
 	addJoke,
@@ -13,21 +13,24 @@ import {
 	getLikedJokesByUser,
 	unlikeJoke,
 } from "~/serverFn/likesServerFn";
-import type {
-	JokeInput,
-	JokeSelect,
-	LikedJokeSelect,
-} from "~/validation/types";
+import type { JokeSelect, LikedJokeSelect } from "~/validation/types";
 
 export const likedJokesCollection = createCollection(
 	queryCollectionOptions({
 		queryClient,
 		queryKey: ["likedJokes"],
 		queryFn: async () => {
-			/*const response = await fetch("/api/liked-joke");
-			const likedJokes: LikedJokeSelect[] = await response.json();*/
+			// Get userId from session
+			const userId = getSessionUserId();
 
-			const likedJokes: LikedJokeSelect[] = await getLikedJokesByUser();
+			if (!userId) {
+				// Return empty array if no user is logged in
+				return [];
+			}
+
+			const likedJokes: LikedJokeSelect[] = await getLikedJokesByUser({
+				data: userId,
+			});
 
 			return likedJokes || [];
 		},
