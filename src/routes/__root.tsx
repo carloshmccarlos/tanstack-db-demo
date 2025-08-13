@@ -18,27 +18,21 @@ import appCss from "~/styles/app.css?url";
 
 type RootContext = {
 	userId: string | undefined;
+	pathname: string;
 };
 
 export const Route = createRootRoute({
 	beforeLoad: async ({ location }): Promise<RootContext> => {
 		const pathname = location.pathname;
 
-		// const { userId }: { userId: string | undefined } = await getSession();
+		const { userId }: { userId: string | undefined } = await getSession();
 
-		const userId = "1";
-		if (!userId && pathname !== "/auth") {
-			throw redirect({
-				to: "/auth",
-				search: { type: "login" },
-			});
-		}
-
-		return { userId };
+		return { userId: userId, pathname: pathname };
 	},
 
 	loader: ({ context }) => {
 		return {
+			pathname: context.pathname,
 			userId: context.userId,
 		};
 	},
@@ -81,7 +75,7 @@ export const Route = createRootRoute({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-	const { userId } = Route.useLoaderData();
+	const { pathname } = Route.useLoaderData();
 
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -91,7 +85,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					<title>Tanstack Demo</title>
 				</head>
 				<body>
-					{userId && <Header />}
+					{pathname === "/auth" || <Header />}
 					{children}
 					<Toaster />
 					<TanStackRouterDevtools position="bottom-right" />

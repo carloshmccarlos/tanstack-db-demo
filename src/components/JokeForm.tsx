@@ -1,4 +1,3 @@
-import { useRouter } from "@tanstack/react-router";
 import { Suspense } from "react";
 import { toast } from "sonner";
 import { useAppForm } from "~/components/form/hook";
@@ -7,10 +6,12 @@ import { addJokeSchema } from "~/validation/schema";
 import type { JokeSelect } from "~/validation/types";
 
 interface Props {
-	joke?: JokeSelect;
+	joke: JokeSelect | null;
 }
 
 export default function JokeForm({ joke }: Props) {
+	console.log(joke);
+
 	const label = joke ? "Update Joke" : "Add Joke";
 	const operation = joke ? "update" : "add";
 
