@@ -27,7 +27,7 @@ export const Route = createRootRoute({
 		const { userId }: { userId: string | undefined } = await getSession();
 
 		if (!userId && pathname !== "/auth") {
-			redirect({
+			throw redirect({
 				to: "/auth",
 				search: { type: "login" },
 			});
@@ -81,6 +81,7 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	const { userId } = Route.useLoaderData();
+
 	return (
 		<QueryClientProvider client={queryClient}>
 			<html lang={"en"}>
