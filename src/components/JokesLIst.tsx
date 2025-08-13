@@ -12,12 +12,6 @@ export function JokesList({ jokes }: { jokes: JokeSelect[] }) {
 				<p className="text-muted-foreground mb-6 text-center max-w-md">
 					Looks like the comedy club is empty. Be the first to share a joke!
 				</p>
-				<Link
-					to="/jokes/new"
-					className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
-				>
-					✨ Add Your First Joke
-				</Link>
 			</div>
 		);
 	}
@@ -33,19 +27,13 @@ export function JokesList({ jokes }: { jokes: JokeSelect[] }) {
 						Discover hilarious jokes from our community
 					</p>
 				</div>
-				<Link
-					to="/jokes/new"
-					className="inline-flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-md font-medium hover:bg-secondary/80 transition-colors"
-				>
-					+ Add Joke
-				</Link>
 			</div>
 
 			<div className="flex flex-col gap-2 justify-center">
 				{jokes.map((joke: JokeSelect, index) => (
 					<Link
 						to={`/jokes/$id`}
-						params={(prev: JokeSelect) => ({ ...prev, id: joke.id })}
+						params={(prev) => ({ ...prev, id: joke.id })}
 						key={joke.id}
 						className="group block bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.02] hover:border-primary/50"
 						style={{ animationDelay: `${index * 100}ms` }}

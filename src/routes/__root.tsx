@@ -16,11 +16,15 @@ import { queryClient } from "~/lib/queryClient";
 // @ts-ignore
 import appCss from "~/styles/app.css?url";
 
+type RootContext = {
+	userId: string | undefined;
+};
+
 export const Route = createRootRoute({
-	beforeLoad: async ({ location }) => {
+	beforeLoad: async ({ location }): Promise<RootContext> => {
 		const pathname = location.pathname;
 
-		const { userId } = await getSession();
+		const { userId }: { userId: string | undefined } = await getSession();
 
 		if (!userId && pathname !== "/auth") {
 			redirect({
