@@ -26,6 +26,4 @@ function RouteComponent() {
 			</div>
 		);
 	}
-
-	return <div className={"text-center"}>Loading...</div>;
 }

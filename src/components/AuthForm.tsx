@@ -1,5 +1,5 @@
 import { formOptions } from "@tanstack/form-core";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { Mail, User } from "lucide-react";
 import { useAppForm } from "~/components/form/hook";
 import { signInWithEmail } from "~/lib/auth/sign-in";
@@ -14,6 +14,7 @@ import type {
 } from "~/validation/types";
 
 export default function AuthForm({ type }: authSearchParams) {
+	const router = useRouter();
 	let formOpts = {};
 
 	if (type === "login") {
@@ -50,6 +51,9 @@ export default function AuthForm({ type }: authSearchParams) {
 				}
 
 				await signUpWithEmail(value);
+
+				// Navigate to jokes page after successful signup
+				router.navigate({ to: "/jokes" });
 			},
 		});
 	} else {
@@ -96,7 +100,7 @@ export default function AuthForm({ type }: authSearchParams) {
 					</form.AppField>
 				)}
 
-				<form.AppField name="email">
+				<form.AppField name="email" defaultValue={"demo-test@email.com"}>
 					{(field) => (
 						<field.TextField
 							label="Email"
@@ -107,7 +111,7 @@ export default function AuthForm({ type }: authSearchParams) {
 					)}
 				</form.AppField>
 
-				<form.AppField name="password">
+				<form.AppField name="password" defaultValue={"demo-test"}>
 					{(field) => (
 						<field.PasswordField
 							label="Password"

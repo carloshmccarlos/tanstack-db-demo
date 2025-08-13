@@ -1,36 +1,65 @@
 import { useRouter } from "@tanstack/react-router";
+import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import signOut from "~/lib/auth/sign-out";
 
-export default function AuthButton() {
-	const router = useRouter();
+type AuthButtonProps = {
+	userId?: string;
+};
 
-	async function handleClick() {
+export default function AuthButton({ userId }: AuthButtonProps) {
+	const router = useRouter();
+	const [isAuthenticated, setIsAuthenticated] = useState(!!userId);
+
+	async function handleSignOut() {
 		const result = confirm("Are you sure to sign out?");
 
 		if (result) {
 			await signOut();
-			// Manually navigate after sign out completes
-			router.navigate({
-				to: "/auth",
-				search: { type: "login" },
-			});
 		}
+
+		setIsAuthenticated(false);
 		return;
 	}
 
-	return (
-		<Button
-			className={
-				"transition-all duration-200 font-medium hover:bg-destructive hover:text-destructive-foreground hover:border-destructive"
-			}
-			type={"button"}
-			onClick={handleClick}
-		>
-			<div className="flex items-center gap-2">
-				<span className="text-sm">{"👋"}</span>
-				<span>{"Sign Out"}</span>
-			</div>
-		</Button>
-	);
+	function handleSignIn() {
+		router.navigate({
+			to: "/auth",
+			search: { type: "login" },
+		});
+	}
+
+	if (isAuthenticated) {
+		// Show sign out button
+		return (
+			<Button
+				className={
+					"transition-all duration-200 font-medium hover:bg-destructive hover:text-destructive-foreground hover:border-destructive"
+				}
+				type={"button"}
+				onClick={handleSignOut}
+			>
+				<div className="flex items-center gap-2">
+					<span className="text-sm">{"👋"}</span>
+					<span>{"Sign Out"}</span>
+				</div>
+			</Button>
+		);
+	} else {
+		// Show sign in button
+		return (
+			<Button
+				className={
+					"transition-all duration-200 font-medium hover:bg-primary/90"
+				}
+				type={"button"}
+				onClick={handleSignIn}
+			>
+				<div className="flex items-center gap-2">
+					<span className="text-sm">{"🔐"}</span>
+					<span>{"Sign In"}</span>
+				</div>
+			</Button>
+		);
+	}
 }

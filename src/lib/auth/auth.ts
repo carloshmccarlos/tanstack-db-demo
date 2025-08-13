@@ -12,10 +12,10 @@ export const auth = betterAuth({
 	}),
 	emailAndPassword: {
 		enabled: true,
-		requireEmailVerification: true,
+		requireEmailVerification: false,
 	},
 
-	emailVerification: {
+	/*emailVerification: {
 		sendVerificationEmail: async ({ user: newUser, url, token }, request) => {
 			await sendEmail({
 				to: newUser.email,
@@ -26,7 +26,7 @@ export const auth = betterAuth({
 		autoSignInAfterVerification: true,
 		expiresIn: 300,
 		sendOnSignUp: true,
-	},
+	},*/
 
 	plugins: [reactStartCookies()],
 

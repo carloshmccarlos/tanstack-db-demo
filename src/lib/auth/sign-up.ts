@@ -1,4 +1,3 @@
-import { redirect } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { authClient } from "~/lib/auth/auth-client";
 import type { UserRegister } from "~/validation/types";
@@ -16,10 +15,7 @@ export async function signUpWithEmail({ email, password, name }: UserRegister) {
 				//show loading
 			},
 			onSuccess: () => {
-				redirect({
-					to: "/auth",
-					search: { type: "login" },
-				});
+				toast.success("create new account successfully");
 			},
 			onError: (ctx) => {
 				toast.error(ctx.error.message);

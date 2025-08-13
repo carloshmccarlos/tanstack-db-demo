@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import AuthButton from "~/components/AuthButton";
 
-export default function Header() {
+export default function Header({ userId }: { userId: string | undefined }) {
 	return (
 		<header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 			<div className="container flex h-16 max-w-screen-2xl items-center px-4">
@@ -30,7 +30,7 @@ export default function Header() {
 						</Link>
 					</div>
 
-					<AuthButton />
+					<AuthButton userId={userId} />
 				</nav>
 			</div>
 		</header>
