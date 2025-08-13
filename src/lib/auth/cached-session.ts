@@ -14,8 +14,23 @@ export async function getCachedSession() {
 	});
 }
 
-export function getSessionUserId() {
-	const sessionData = queryClient.getQueryData<SessionData>(["session"]);
+export async function getSessionUserId() {
+	// First try to get the cached session data
+	let sessionData = queryClient.getQueryData<SessionData>(["session"]);
+	
+	// If no session data is found, try to fetch it
+	if (!sessionData) {
+		try {
+			sessionData = await queryClient.fetchQuery<SessionData>({
+				queryKey: ["session"],
+				queryFn: () => getUserId(),
+				staleTime: 5 * 60 * 1000, // 5 minutes
+			});
+		} catch (error) {
+			console.error("Failed to fetch session:", error);
+		}
+	}
+	
 	return sessionData?.userId;
 }
 

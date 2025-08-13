@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function JokeDetail({ joke, userId }: Props) {
-	const { data: likedJokesByUser, isLoading } = useLiveQuery((q) =>
+	const { data: likedJokesByUser } = useLiveQuery((q) =>
 		q
 			.from({ likedJoke: likedJokesCollection })
 			.where(({ likedJoke }) => eq(likedJoke.jokeId, joke.id)),
@@ -22,6 +22,11 @@ export default function JokeDetail({ joke, userId }: Props) {
 	);
 
 	const addLikedJoke = () => {
+		if (!userId) {
+			toast.error("Please login to like a joke.");
+			return;
+		}
+
 		likedJokesCollection.insert({
 			id: "",
 			jokeId: joke.id,
@@ -63,7 +68,6 @@ export default function JokeDetail({ joke, userId }: Props) {
 								? "bg-red-500 hover:bg-red-600 text-white shadow-lg hover:shadow-red-500/25"
 								: "hover:bg-red-50 hover:border-red-200 hover:text-red-600"
 						}`}
-						disabled={isLoading || !userId}
 						onClick={isLiked ? removeLikedJoke : addLikedJoke}
 					>
 						<div className="flex items-center gap-2">

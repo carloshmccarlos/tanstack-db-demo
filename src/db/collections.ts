@@ -21,10 +21,11 @@ export const likedJokesCollection = createCollection(
 		queryKey: ["likedJokes"],
 		queryFn: async () => {
 			// Get userId from session
-			const userId = getSessionUserId();
+			const userId = await getSessionUserId();
+
+			console.log(userId);
 
 			if (!userId) {
-				// Return empty array if no user is logged in
 				return [];
 			}
 
