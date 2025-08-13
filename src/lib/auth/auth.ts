@@ -38,11 +38,5 @@ export const auth = betterAuth({
 		maxAge: 30 * 24 * 60 * 60, // 30天（秒）
 		updateAge: 24 * 60 * 60, // 24小时（秒）
 		cookieName: "auth.session",
-		cookieOptions: {
-			httpOnly: true,
-			sameSite: "lax",
-			path: "/",
-			secure: process.env.NODE_ENV === "production" || "dev",
-		},
 	},
 });

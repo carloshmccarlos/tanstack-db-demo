@@ -78,20 +78,18 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	const { pathname, userId } = Route.useLoaderData();
 
 	return (
-		<QueryClientProvider client={queryClient}>
-			<html lang={"en"}>
-				<head>
-					<HeadContent />
-					<title>Tanstack Demo</title>
-				</head>
-				<body>
-					{pathname === "/auth" || <Header userId={userId} />}
-					{children}
-					<Toaster />
-					<TanStackRouterDevtools position="bottom-right" />
-					<Scripts />
-				</body>
-			</html>
-		</QueryClientProvider>
+		<html lang={"en"}>
+			<head>
+				<HeadContent />
+				<title>Tanstack Demo</title>
+			</head>
+			<body>
+				{pathname === "/auth" || <Header userId={userId} />}
+				{children}
+				<Toaster />
+				<TanStackRouterDevtools position="bottom-right" />
+				<Scripts />
+			</body>
+		</html>
 	);
 }
