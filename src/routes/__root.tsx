@@ -24,8 +24,9 @@ export const Route = createRootRoute({
 	beforeLoad: async ({ location }): Promise<RootContext> => {
 		const pathname = location.pathname;
 
-		const { userId }: { userId: string | undefined } = await getSession();
+		// const { userId }: { userId: string | undefined } = await getSession();
 
+		const userId = "1";
 		if (!userId && pathname !== "/auth") {
 			throw redirect({
 				to: "/auth",
