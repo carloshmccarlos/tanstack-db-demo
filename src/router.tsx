@@ -3,6 +3,7 @@ import { DefaultCatchBoundary } from "./components/DefaultCatchBoundary";
 import { NotFound } from "./components/NotFound";
 import { routeTree } from "./routeTree.gen";
 
+// @ts-ignore
 export function createRouter() {
 	return createTanStackRouter({
 		routeTree,
@@ -15,6 +16,7 @@ export function createRouter() {
 
 declare module "@tanstack/react-router" {
 	interface Register {
+		// @ts-ignore
 		router: ReturnType<typeof createRouter>;
 	}
 }
