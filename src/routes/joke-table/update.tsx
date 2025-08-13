@@ -26,5 +26,5 @@ export const Route = createFileRoute("/joke-table/update")({
 function RouteComponent() {
 	const { joke } = Route.useLoaderData();
 
-	return <JokeForm joke={joke} />;
+	return <JokeForm joke={joke || undefined} />;
 }

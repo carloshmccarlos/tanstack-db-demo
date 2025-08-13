@@ -6,12 +6,10 @@ import { addJokeSchema } from "~/validation/schema";
 import type { JokeSelect } from "~/validation/types";
 
 interface Props {
-	joke: JokeSelect | null;
+	joke?: JokeSelect;
 }
 
 export default function JokeForm({ joke }: Props) {
-	console.log(joke);
-
 	const label = joke ? "Update Joke" : "Add Joke";
 	const operation = joke ? "update" : "add";
 
