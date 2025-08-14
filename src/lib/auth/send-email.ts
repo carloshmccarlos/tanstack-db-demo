@@ -20,7 +20,7 @@ export async function sendEmail({ to, subject, text }: Props) {
 
 	try {
 		const response = await resend.emails.send({
-			from: "i-read-official@ielts-read.space",
+			from: "test",
 			to: to,
 			subject: subject,
 			html: text,
