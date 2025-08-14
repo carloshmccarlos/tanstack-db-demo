@@ -5,7 +5,8 @@ import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
 import Header from "~/components/Header";
 import { NotFound } from "~/components/NotFound";
 import { Toaster } from "~/components/ui/sonner";
-import { getCachedSession } from "~/lib/auth/cached-session";
+
+import { fetchUserId } from "~/lib/auth/fetchUserId";
 // @ts-ignore
 import appCss from "~/styles/app.css?url";
 
@@ -18,9 +19,11 @@ export const Route = createRootRoute({
 	beforeLoad: async ({ location }): Promise<RootContext> => {
 		const pathname = location.pathname;
 
-		const sessionData = await getCachedSession();
+		const { userId } = await fetchUserId();
 
-		return { userId: sessionData.userId, pathname: pathname };
+		// const sessionData = await getCachedSession();
+
+		return { userId: userId, pathname: pathname };
 	},
 
 	loader: ({ context }) => {

@@ -1,6 +1,7 @@
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { createCollection } from "@tanstack/react-db";
-import { getSessionUserId } from "~/lib/auth/cached-session";
+import { authClient } from "~/lib/auth/auth-client";
+import { fetchUserId } from "~/lib/auth/fetchUserId";
 import { queryClient } from "~/lib/queryClient";
 import {
 	addJoke,
@@ -20,10 +21,7 @@ export const likedJokesCollection = createCollection(
 		queryClient,
 		queryKey: ["likedJokes"],
 		queryFn: async () => {
-			// Get userId from session
-			const userId = await getSessionUserId();
-
-			console.log(userId);
+			const { userId } = await fetchUserId();
 
 			if (!userId) {
 				return [];
@@ -33,7 +31,7 @@ export const likedJokesCollection = createCollection(
 				data: userId,
 			});
 
-			return likedJokes || [];
+			return likedJokes;
 		},
 		getKey: (item) => item.id,
 		onInsert: async ({ transaction }) => {

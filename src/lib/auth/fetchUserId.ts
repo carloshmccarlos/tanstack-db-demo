@@ -6,7 +6,7 @@ type SessionData = {
 	userId: string | undefined;
 };
 
-export const getUserId = createServerFn({
+export const fetchUserId = createServerFn({
 	method: "GET",
 }).handler(async (): Promise<SessionData> => {
 	const request = getWebRequest();

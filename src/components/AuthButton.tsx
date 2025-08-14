@@ -1,7 +1,6 @@
 import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
-import { clearSessionCache } from "~/lib/auth/cached-session";
 import signOut from "~/lib/auth/sign-out";
 
 type AuthButtonProps = {
@@ -16,12 +15,11 @@ export default function AuthButton({ userId }: AuthButtonProps) {
 		const result = confirm("Are you sure to sign out?");
 
 		if (result) {
+			setIsAuthenticated(false);
 			await signOut();
 			// Clear the cached session data after logout
-			clearSessionCache();
 		}
 
-		setIsAuthenticated(false);
 		return;
 	}
 

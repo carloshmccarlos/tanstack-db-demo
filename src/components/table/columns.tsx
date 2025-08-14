@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
+import TableButton from "~/components/TableButton";
 import { Button } from "~/components/ui/button";
 import { jokeCollection } from "~/db/collections";
 import type { JokeSelect } from "~/validation/types";
@@ -35,30 +36,7 @@ export const columns: ColumnDef<JokeSelect>[] = [
 		cell: ({ row }) => {
 			const joke = row.original;
 
-			return (
-				<div className="flex flex-row gap-2 items-center">
-					<Button asChild className={"bg-blue-500"} size="sm">
-						<Link to="/joke-table/update" search={{ id: joke.id }}>
-							Update
-						</Link>
-					</Button>
-
-					<Button
-						onClick={() => {
-							const result = confirm(
-								"Are you sure you want to delete this joke?",
-							);
-							if (result) {
-								jokeCollection.delete(joke.id);
-							}
-						}}
-						variant="destructive"
-						size="sm"
-					>
-						Delete
-					</Button>
-				</div>
-			);
+			return <TableButton joke={joke} />;
 		},
 	},
 ];

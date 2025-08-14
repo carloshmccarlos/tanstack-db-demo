@@ -3,7 +3,6 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { reactStartCookies } from "better-auth/react-start";
 import * as schema from "src/db/schema";
 import { db } from "~/db/client";
-import { sendEmail } from "~/lib/auth/send-email";
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, {
