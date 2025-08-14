@@ -14,6 +14,7 @@ export const Route = createFileRoute("/jokes")({
 		};
 	},
 	component: App,
+	staleTime: 10_000,
 });
 
 function App() {
