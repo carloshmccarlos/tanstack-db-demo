@@ -2,6 +2,8 @@ import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { JokesList } from "~/components/JokesLIst";
 import { getJokes } from "~/serverFn/jokesServerFn";
 
+//use for layout
+
 export const Route = createFileRoute("/jokes")({
 	loader: async ({ context }) => {
 		const userId = context.userId;

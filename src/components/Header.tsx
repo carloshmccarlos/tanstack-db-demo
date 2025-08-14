@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import AuthButton from "~/components/AuthButton";
+import GithubLink from "~/components/GithubLink";
 
 export default function Header({ userId }: { userId: string | undefined }) {
 	return (
@@ -30,7 +31,10 @@ export default function Header({ userId }: { userId: string | undefined }) {
 						</Link>
 					</div>
 
-					<AuthButton userId={userId} />
+					<div className="flex items-center space-x-4 gap-2">
+						<GithubLink />
+						<AuthButton userId={userId} />
+					</div>
 				</nav>
 			</div>
 		</header>

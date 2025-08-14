@@ -77,7 +77,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 		<html lang={"en"}>
 			<head>
 				<HeadContent />
-				<title>Tanstack Demo</title>
+				<title>Tanstack DB Demo</title>
 			</head>
 			<body>
 				{pathname === "/auth" || <Header userId={userId} />}

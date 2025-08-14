@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import JokeTable from "~/components/JokeTable";
 import { Button } from "~/components/ui/button";
 
+//use for layout
+
 export const Route = createFileRoute("/joke-table")({
 	component: RouteComponent,
 });
