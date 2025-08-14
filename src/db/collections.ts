@@ -1,6 +1,5 @@
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { createCollection } from "@tanstack/react-db";
-import { authClient } from "~/lib/auth/auth-client";
 import { fetchUserId } from "~/lib/auth/fetchUserId";
 import { queryClient } from "~/lib/queryClient";
 import {

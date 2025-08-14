@@ -1,9 +1,7 @@
-import { Link } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import TableButton from "~/components/TableButton";
 import { Button } from "~/components/ui/button";
-import { jokeCollection } from "~/db/collections";
 import type { JokeSelect } from "~/validation/types";
 
 export const columns: ColumnDef<JokeSelect>[] = [

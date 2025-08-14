@@ -30,7 +30,7 @@ export const getJokes = createServerFn({
 export const getJokeById = createServerFn({
 	method: "GET",
 })
-	.validator(v.string("Your id must be a string"))
+	.validator(v.string())
 	.handler(async ({ data }) => {
 		try {
 			const result = await db.select().from(joke).where(eq(joke.id, data));
