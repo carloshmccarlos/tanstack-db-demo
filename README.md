@@ -50,7 +50,7 @@ An interactive demo of TanStack Start focusing on real-time client interaction w
 
 3. **Set up environment variables**
    ```bash
-   cp .env.example .env
+   cp .env .env
    ```
    Configure your `.env` file with:
  

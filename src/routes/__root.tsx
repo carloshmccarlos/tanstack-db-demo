@@ -1,3 +1,4 @@
+import { QueryClientProvider } from "@tanstack/react-query";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type * as React from "react";
@@ -5,8 +6,8 @@ import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
 import Header from "~/components/Header";
 import { NotFound } from "~/components/NotFound";
 import { Toaster } from "~/components/ui/sonner";
-
 import { fetchUserId } from "~/lib/auth/fetchUserId";
+import { queryClient } from "~/lib/queryClient";
 // @ts-ignore
 import appCss from "~/styles/app.css?url";
 
@@ -74,18 +75,20 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	const { pathname, userId } = Route.useLoaderData();
 
 	return (
-		<html lang={"en"}>
-			<head>
-				<HeadContent />
-				<title>Tanstack DB Demo</title>
-			</head>
-			<body>
-				{pathname === "/auth" || <Header userId={userId} />}
-				{children}
-				<Toaster />
-				<TanStackRouterDevtools position="bottom-right" />
-				<Scripts />
-			</body>
-		</html>
+		<QueryClientProvider client={queryClient}>
+			<html lang={"en"}>
+				<head>
+					<HeadContent />
+					<title>Tanstack DB Demo</title>
+				</head>
+				<body>
+					{pathname === "/auth" || <Header userId={userId} />}
+					{children}
+					<Toaster />
+					<TanStackRouterDevtools position="bottom-right" />
+					<Scripts />
+				</body>
+			</html>
+		</QueryClientProvider>
 	);
 }

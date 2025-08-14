@@ -1,7 +1,34 @@
+import { useLiveQuery } from "@tanstack/react-db";
 import { Link } from "@tanstack/react-router";
+import { jokeCollection } from "~/db/collections";
 import type { JokeSelect } from "~/validation/types";
 
-export function JokesList({ jokes }: { jokes: JokeSelect[] }) {
+export function JokesList() {
+	const {
+		data: jokes,
+		isLoading,
+		isError,
+	} = useLiveQuery((q) => q.from({ joke: jokeCollection }));
+
+	if (isLoading) {
+		return (
+			<div className="container mx-auto py-6 px-4">
+				<div className="flex justify-center items-center h-64">
+					<p>Loading jokes...</p>
+				</div>
+			</div>
+		);
+	}
+
+	if (isError) {
+		return (
+			<div className="container mx-auto py-6 px-4">
+				<div className="flex justify-center items-center h-64">
+					<p className="text-red-500">Error loading jokes</p>
+				</div>
+			</div>
+		);
+	}
 	if (!jokes || jokes.length === 0) {
 		return (
 			<div className="flex flex-col items-center justify-center py-16 px-4">
