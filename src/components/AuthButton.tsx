@@ -1,26 +1,17 @@
 import { useRouter } from "@tanstack/react-router";
-import { useState } from "react";
 import { Button } from "~/components/ui/button";
-import signOut from "~/lib/auth/sign-out";
+import { useSession } from "~/lib/auth/use-session";
 
-type AuthButtonProps = {
-	userId?: string;
-};
-
-export default function AuthButton({ userId }: AuthButtonProps) {
+export default function AuthButton() {
 	const router = useRouter();
-	const [isAuthenticated, setIsAuthenticated] = useState(!!userId);
+	const { isAuthenticated, isLoading, signOut } = useSession();
 
 	async function handleSignOut() {
-		const result = confirm("Are you sure to sign out?");
+		const result = confirm("Are you sure you want to sign out?");
 
 		if (result) {
-			setIsAuthenticated(false);
 			await signOut();
-			// Clear the cached session data after logout
 		}
-
-		return;
 	}
 
 	function handleSignIn() {
@@ -28,6 +19,15 @@ export default function AuthButton({ userId }: AuthButtonProps) {
 			to: "/auth",
 			search: { type: "login" },
 		});
+	}
+
+	// Show loading state
+	if (isLoading) {
+		return (
+			<Button disabled className="opacity-50">
+				Loading...
+			</Button>
+		);
 	}
 
 	if (isAuthenticated) {

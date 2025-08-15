@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import AuthButton from "~/components/AuthButton";
 import GithubLink from "~/components/GithubLink";
 
-export default function Header({ userId }: { userId: string | undefined }) {
+export default function Header() {
 	return (
 		<header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 			<div className="container flex h-16 max-w-screen-2xl items-center px-4">
@@ -29,11 +29,22 @@ export default function Header({ userId }: { userId: string | undefined }) {
 						>
 							Joke Table
 						</Link>
+
+						<Link
+							to="/session-demo"
+							activeProps={{
+								className: "text-foreground font-semibold",
+							}}
+							activeOptions={{ exact: true }}
+							className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
+						>
+							Session Demo
+						</Link>
 					</div>
 
 					<div className="flex items-center space-x-4 gap-2">
 						<GithubLink />
-						<AuthButton userId={userId} />
+						<AuthButton />
 					</div>
 				</nav>
 			</div>

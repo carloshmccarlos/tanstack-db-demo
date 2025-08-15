@@ -4,20 +4,18 @@ import JokeDetail from "~/components/JokeDetail";
 import { getJokeById } from "~/serverFn/jokesServerFn";
 
 export const Route = createFileRoute("/jokes/$id")({
-	loader: async ({ params, context }) => {
+	loader: async ({ params }) => {
 		const id = params.id;
 		const joke = await getJokeById({ data: id });
-		const userId = context.userId;
 		return {
 			joke,
-			userId,
 		};
 	},
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	const { joke, userId } = Route.useLoaderData();
+	const { joke } = Route.useLoaderData();
 	const [isClient, setIsClient] = useState(false);
 
 	useEffect(() => {
@@ -29,7 +27,7 @@ function RouteComponent() {
 	}
 
 	if (isClient) {
-		return <JokeDetail userId={userId || ""} key={joke.id} joke={joke} />;
+		return <JokeDetail joke={joke} />;
 	}
 
 	return <p>Loading...</p>;

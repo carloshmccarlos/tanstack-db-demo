@@ -11,6 +11,7 @@
 import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SessionDemoRouteImport } from './routes/session-demo'
 import { Route as JokesRouteRouteImport } from './routes/jokes/route'
 import { Route as JokeTableRouteRouteImport } from './routes/joke-table/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -25,6 +26,11 @@ import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/
 
 const rootServerRouteImport = createServerRootRoute()
 
+const SessionDemoRoute = SessionDemoRouteImport.update({
+  id: '/session-demo',
+  path: '/session-demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JokesRouteRoute = JokesRouteRouteImport.update({
   id: '/jokes',
   path: '/jokes',
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/joke-table': typeof JokeTableRouteRouteWithChildren
   '/jokes': typeof JokesRouteRouteWithChildren
+  '/session-demo': typeof SessionDemoRoute
   '/auth/result': typeof AuthResultRoute
   '/joke-table/new': typeof JokeTableNewRoute
   '/joke-table/update': typeof JokeTableUpdateRoute
@@ -95,6 +102,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/session-demo': typeof SessionDemoRoute
   '/auth/result': typeof AuthResultRoute
   '/joke-table/new': typeof JokeTableNewRoute
   '/joke-table/update': typeof JokeTableUpdateRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/joke-table': typeof JokeTableRouteRouteWithChildren
   '/jokes': typeof JokesRouteRouteWithChildren
+  '/session-demo': typeof SessionDemoRoute
   '/auth/result': typeof AuthResultRoute
   '/joke-table/new': typeof JokeTableNewRoute
   '/joke-table/update': typeof JokeTableUpdateRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
     | '/'
     | '/joke-table'
     | '/jokes'
+    | '/session-demo'
     | '/auth/result'
     | '/joke-table/new'
     | '/joke-table/update'
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/session-demo'
     | '/auth/result'
     | '/joke-table/new'
     | '/joke-table/update'
@@ -144,6 +155,7 @@ export interface FileRouteTypes {
     | '/'
     | '/joke-table'
     | '/jokes'
+    | '/session-demo'
     | '/auth/result'
     | '/joke-table/new'
     | '/joke-table/update'
@@ -157,6 +169,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   JokeTableRouteRoute: typeof JokeTableRouteRouteWithChildren
   JokesRouteRoute: typeof JokesRouteRouteWithChildren
+  SessionDemoRoute: typeof SessionDemoRoute
   AuthResultRoute: typeof AuthResultRoute
   AuthIndexRoute: typeof AuthIndexRoute
 }
@@ -184,6 +197,13 @@ export interface RootServerRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/session-demo': {
+      id: '/session-demo'
+      path: '/session-demo'
+      fullPath: '/session-demo'
+      preLoaderRoute: typeof SessionDemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/jokes': {
       id: '/jokes'
       path: '/jokes'
@@ -302,6 +322,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   JokeTableRouteRoute: JokeTableRouteRouteWithChildren,
   JokesRouteRoute: JokesRouteRouteWithChildren,
+  SessionDemoRoute: SessionDemoRoute,
   AuthResultRoute: AuthResultRoute,
   AuthIndexRoute: AuthIndexRoute,
 }

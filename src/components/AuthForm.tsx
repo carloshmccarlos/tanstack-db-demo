@@ -1,4 +1,4 @@
-import { formOptions } from "@tanstack/form-core";
+import { formOptions } from "@tanstack/react-form";
 import { Link, useRouter } from "@tanstack/react-router";
 import { Mail, User } from "lucide-react";
 import { useAppForm } from "~/components/form/hook";
