@@ -72,7 +72,7 @@ export const Route = createRootRoute({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-	const { pathname } = Route.useLoaderData();
+	const { pathname, userId } = Route.useLoaderData();
 
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -82,7 +82,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					<title>Tanstack DB Demo</title>
 				</head>
 				<body>
-					{pathname === "/auth" || <Header />}
+					{pathname === "/auth" || <Header userId={userId} />}
 					{children}
 					<Toaster />
 					<TanStackRouterDevtools position="bottom-right" />

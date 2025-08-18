@@ -3,15 +3,14 @@ import { Heart, HeartOff } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { likedJokesCollection } from "~/db/collections";
-import { useUserId } from "~/lib/auth/use-session";
 import type { JokeSelect } from "~/validation/types";
 
 interface Props {
 	joke: JokeSelect;
+	userId: string;
 }
 
-export default function JokeDetail({ joke }: Props) {
-	const { userId, isAuthenticated } = useUserId();
+export default function JokeDetail({ joke, userId }: Props) {
 	const { data: likedJokesByUser } = useLiveQuery((q) =>
 		q
 			.from({ likedJoke: likedJokesCollection })
@@ -23,7 +22,7 @@ export default function JokeDetail({ joke }: Props) {
 	);
 
 	const addLikedJoke = () => {
-		if (!isAuthenticated || !userId) {
+		if (!userId) {
 			toast.error("Please login to like a joke.");
 			return;
 		}
