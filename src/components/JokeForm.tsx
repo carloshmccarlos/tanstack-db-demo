@@ -7,7 +7,7 @@ import { createJoke, updateJoke } from "~/db/actions";
 import { jokeCollection } from "~/db/collections";
 import { addJokeSchema } from "~/validation/schema";
 
-export default function JokeForm({ id }: { id: string }) {
+export default function JokeForm({ id }: { id?: string }) {
 	const { data } = useLiveQuery((q) =>
 		q.from({ joke: jokeCollection }).where(({ joke }) => eq(joke.id, id)),
 	);
