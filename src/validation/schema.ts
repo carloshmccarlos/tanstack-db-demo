@@ -45,6 +45,12 @@ export const userRegisterSchema = v.object({
 		v.minLength(8, "The minimum length must be 10 characters"),
 		v.maxLength(16, "The password must be shorter than 16 characters"),
 	),
+	confirmPassword: v.pipe(
+		v.string(),
+		v.nonEmpty("Password must be a string"),
+		v.minLength(8, "The minimum length must be 10 characters"),
+		v.maxLength(16, "The password must be shorter than 16 characters"),
+	),
 });
 
 export const userLoginSchema = v.object({
@@ -61,6 +67,8 @@ export const authSearchSchema = v.object({
 });
 
 export const likeJokeSchema = v.object({
+	id: v.string(),
 	userId: v.string(),
 	jokeId: v.string(),
+	createdAt: v.date(),
 });

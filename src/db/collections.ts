@@ -1,9 +1,9 @@
+import { createCollection } from "@tanstack/db";
+import { QueryClient } from "@tanstack/query-core";
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
-import { createCollection } from "@tanstack/react-db";
-import { fetchUserId } from "~/lib/auth/fetchUserId";
-import { queryClient } from "~/lib/queryClient";
+
 import {
-	addJoke,
+	createJoke,
 	deleteJoke,
 	getJokes,
 	updateJoke,
@@ -13,25 +13,17 @@ import {
 	getLikedJokesByUser,
 	unlikeJoke,
 } from "~/serverFn/likesServerFn";
-import type { JokeSelect, LikedJokeSelect } from "~/validation/types";
+import { jokeSchema, likeJokeSchema } from "~/validation/schema";
+
+const queryClient = new QueryClient();
 
 export const likedJokesCollection = createCollection(
+	// @ts-ignore
 	queryCollectionOptions({
 		queryClient,
 		queryKey: ["likedJokes"],
-		queryFn: async () => {
-			const { userId } = await fetchUserId();
-
-			if (!userId) {
-				return [];
-			}
-
-			const likedJokes: LikedJokeSelect[] = await getLikedJokesByUser({
-				data: userId,
-			});
-
-			return likedJokes;
-		},
+		queryFn: getLikedJokesByUser,
+		schema: likeJokeSchema,
 		getKey: (item) => item.id,
 		onInsert: async ({ transaction }) => {
 			const { modified: newLikedJoke } = transaction.mutations[0];
@@ -46,19 +38,17 @@ export const likedJokesCollection = createCollection(
 );
 
 export const jokeCollection = createCollection(
+	// @ts-ignore
 	queryCollectionOptions({
 		queryClient,
 		queryKey: ["Jokes"],
-		queryFn: async () => {
-			const jokes: JokeSelect[] = await getJokes();
-
-			return jokes || [];
-		},
+		queryFn: getJokes,
+		schema: jokeSchema,
 		getKey: (item) => item.id,
 
 		onInsert: async ({ transaction }) => {
 			const { modified: newJoke } = transaction.mutations[0];
-			await addJoke({ data: newJoke });
+			await createJoke({ data: newJoke });
 		},
 
 		onUpdate: async ({ transaction }) => {

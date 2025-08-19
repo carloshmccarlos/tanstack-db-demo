@@ -4,6 +4,8 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
+    "deploy": "wrangler deploy",
+    "cf-typegen": "wrangler types --env-interface Env",
     "dev": "vite dev",
     "build": "vite build && tsc --noEmit",
     "start": "node .output/server/index.mjs"
@@ -14,9 +16,12 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/vite": "^4.1.11",
+    "@tanstack/db": "^0.1.4",
+    "@tanstack/electric-db-collection": "^0.1.4",
     "@tanstack/form-core": "^1.19.2",
-    "@tanstack/query-db-collection": "^0.2.0",
-    "@tanstack/react-db": "^0.1.1",
+    "@tanstack/query-core": "^5.85.3",
+    "@tanstack/query-db-collection": "^0.2.2",
+    "@tanstack/react-db": "^0.1.4",
     "@tanstack/react-form": "^1.14.2",
     "@tanstack/react-query": "^5.84.1",
     "@tanstack/react-router": "^1.129.8",
@@ -41,6 +46,7 @@
     "tailwind-merge": "^3.3.1",
     "uuid": "^11.1.0",
     "valibot": "^1.1.0",
+    "wrangler": "^4.30.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {

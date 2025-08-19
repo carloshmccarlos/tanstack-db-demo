@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import * as v from "valibot";
 import JokeForm from "~/components/JokeForm";
-import { getJokeById } from "~/serverFn/jokesServerFn";
 
 export const Route = createFileRoute("/joke-table/update")({
 	validateSearch: v.object({
@@ -13,10 +12,8 @@ export const Route = createFileRoute("/joke-table/update")({
 	loader: async ({ deps }) => {
 		const { id } = deps.id;
 
-		const joke = await getJokeById({ data: id });
-
 		return {
-			joke,
+			id,
 		};
 	},
 
@@ -24,7 +21,7 @@ export const Route = createFileRoute("/joke-table/update")({
 });
 
 function RouteComponent() {
-	const { joke } = Route.useLoaderData();
+	const { id } = Route.useLoaderData();
 
-	return <JokeForm joke={joke || undefined} />;
+	return <JokeForm key={id} id={id} />;
 }

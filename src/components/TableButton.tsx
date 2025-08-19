@@ -1,6 +1,6 @@
 import { Link, useRouter } from "@tanstack/react-router";
 import { Button } from "~/components/ui/button";
-import { jokeCollection } from "~/db/collections";
+import { deleteJoke } from "~/db/actions";
 import type { JokeSelect } from "~/validation/types";
 
 type ButtonProps = {
@@ -22,11 +22,13 @@ export default function TableButton({ joke }: ButtonProps) {
 				onClick={() => {
 					const result = confirm("Are you sure you want to delete this joke?");
 					if (result) {
-						jokeCollection.delete(joke.id);
+						deleteJoke(joke.id);
 
-						router.navigate({
-							to: "/joke-table",
-						});
+						router
+							.navigate({
+								to: "/joke-table",
+							})
+							.then();
 					}
 				}}
 				variant="destructive"

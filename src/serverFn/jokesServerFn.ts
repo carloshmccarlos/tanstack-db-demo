@@ -6,12 +6,7 @@ import * as v from "valibot";
 import { db } from "~/db/client";
 import { joke } from "~/db/schema";
 import { addJokeSchema, jokeSchema } from "~/validation/schema";
-import type {
-	JokeInput,
-	JokeInsert,
-	JokeSelect,
-	JokeUpdate,
-} from "~/validation/types";
+import type { JokeInsert, JokeSelect, JokeUpdate } from "~/validation/types";
 
 /**
  * This file contains server functions for joke operations using Postgres database.
@@ -45,11 +40,11 @@ export const getJokeById = createServerFn({
 		}
 	});
 
-export const addJoke = createServerFn({
+export const createJoke = createServerFn({
 	method: "POST",
 })
 	.validator(addJokeSchema)
-	.handler(async ({ data }: { data: JokeInput }) => {
+	.handler(async ({ data }) => {
 		try {
 			const newJoke: JokeInsert = {
 				...data,
@@ -71,7 +66,7 @@ export const updateJoke = createServerFn({
 	method: "POST",
 })
 	.validator(jokeSchema)
-	.handler(async ({ data }: { data: JokeUpdate }) => {
+	.handler(async ({ data }) => {
 		try {
 			const existedJoke = await db
 				.select()
@@ -106,7 +101,7 @@ export const deleteJoke = createServerFn({
 	method: "POST",
 })
 	.validator(jokeSchema)
-	.handler(async ({ data }: { data: JokeSelect }) => {
+	.handler(async ({ data }) => {
 		try {
 			await db.delete(joke).where(eq(joke.id, data.id));
 			return true;

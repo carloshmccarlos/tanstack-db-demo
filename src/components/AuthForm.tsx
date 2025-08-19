@@ -53,7 +53,7 @@ export default function AuthForm({ type }: authSearchParams) {
 				await signUpWithEmail(value);
 
 				// Navigate to jokes page after successful signup
-				router.navigate({ to: "/jokes" });
+				await router.navigate({ to: "/jokes" });
 			},
 		});
 	} else {

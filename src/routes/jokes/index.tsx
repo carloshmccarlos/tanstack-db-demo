@@ -7,7 +7,9 @@ export const Route = createFileRoute("/jokes/")({
 function RouteComponent() {
 	return (
 		<div
-			className={"text-lg font-bold flex items-center justify-center h-full"}
+			className={
+				"h-full flex items-center justify-center font-bold leading-relaxed"
+			}
 		>
 			Please select a joke to update , or you can add a new one.
 		</div>

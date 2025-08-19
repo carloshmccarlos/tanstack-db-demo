@@ -1,43 +1,53 @@
-import { eq, useLiveQuery } from "@tanstack/react-db";
+import { eq } from "@tanstack/db";
+import { useLiveQuery } from "@tanstack/react-db";
 import { Heart, HeartOff } from "lucide-react";
-import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
-import { likedJokesCollection } from "~/db/collections";
-import type { JokeSelect } from "~/validation/types";
+import { createLikedJoke, removeLikedJoke } from "~/db/actions";
+import { jokeCollection, likedJokesCollection } from "~/db/collections";
 
 interface Props {
-	joke: JokeSelect;
+	jokeId: string;
 	userId: string;
 }
 
-export default function JokeDetail({ joke, userId }: Props) {
-	const { data: likedJokesByUser } = useLiveQuery((q) =>
+export default function JokeDetail({ jokeId, userId }: Props) {
+	const { data: likedJokesByUserData } = useLiveQuery((q) =>
 		q
 			.from({ likedJoke: likedJokesCollection })
-			.where(({ likedJoke }) => eq(likedJoke.jokeId, joke.id)),
+			.where(({ likedJoke }) => eq(likedJoke.jokeId, jokeId)),
+	);
+	const { data: jokeData } = useLiveQuery((q) =>
+		q.from({ joke: jokeCollection }).where(({ joke }) => eq(joke.id, jokeId)),
 	);
 
-	const isLiked = likedJokesByUser.find(
-		(likedJoke) => likedJoke.jokeId === joke.id,
-	);
+	const joke = jokeData?.[0];
+	const likedJokesByUser = likedJokesByUserData?.[0];
 
-	const addLikedJoke = () => {
-		if (!userId) {
-			toast.error("Please login to like a joke.");
-			return;
+	const isLiked = !!likedJokesByUser || false;
+
+	function handleClick() {
+		if (isLiked) {
+			removeLikedJoke(likedJokesByUser?.id || "");
+		} else {
+			createLikedJoke({ id: "", createdAt: new Date(), userId, jokeId });
 		}
+	}
 
-		likedJokesCollection.insert({
-			id: "",
-			jokeId: joke.id,
-			userId: userId,
-			createdAt: new Date(),
-		});
-	};
-
-	const removeLikedJoke = () => {
-		likedJokesCollection.delete(isLiked?.id || "");
-	};
+	/*	// Show loading state while data is being fetched
+	if (!joke) {
+		return (
+			<div className="max-w-3xl mx-auto p-6">
+				<div className="bg-card rounded-xl shadow-lg p-8 border border-border/50 backdrop-blur-sm">
+					<div className="flex items-center justify-center py-12">
+						<div className="text-center">
+							<div className="text-4xl mb-4">🎭</div>
+							<p className="text-lg text-muted-foreground">Loading joke...</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}*/
 
 	return (
 		<div className="max-w-3xl mx-auto p-6">
@@ -68,7 +78,7 @@ export default function JokeDetail({ joke, userId }: Props) {
 								? "bg-red-500 hover:bg-red-600 text-white shadow-lg hover:shadow-red-500/25"
 								: "hover:bg-red-50 hover:border-red-200 hover:text-red-600"
 						}`}
-						onClick={isLiked ? removeLikedJoke : addLikedJoke}
+						onClick={handleClick}
 					>
 						<div className="flex items-center gap-2">
 							{isLiked ? (

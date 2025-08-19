@@ -1,15 +1,19 @@
+import { eq } from "@tanstack/db";
+import { useLiveQuery } from "@tanstack/react-db";
 import { Suspense } from "react";
 import { toast } from "sonner";
 import { useAppForm } from "~/components/form/hook";
+import { createJoke, updateJoke } from "~/db/actions";
 import { jokeCollection } from "~/db/collections";
 import { addJokeSchema } from "~/validation/schema";
-import type { JokeSelect } from "~/validation/types";
 
-interface Props {
-	joke?: JokeSelect;
-}
+export default function JokeForm({ id }: { id: string }) {
+	const { data } = useLiveQuery((q) =>
+		q.from({ joke: jokeCollection }).where(({ joke }) => eq(joke.id, id)),
+	);
 
-export default function JokeForm({ joke }: Props) {
+	const joke = data?.[0];
+
 	const label = joke ? "Update Joke" : "Add Joke";
 	const operation = joke ? "update" : "add";
 
@@ -28,21 +32,13 @@ export default function JokeForm({ joke }: Props) {
 						...value,
 						id: joke.id,
 					};
-					jokeCollection.update(updatedValue.id, (draft) => {
-						draft.question = updatedValue.question;
-						draft.answer = updatedValue.answer;
-
-						form.reset({
-							question: draft.question,
-							answer: draft.answer,
-						});
-					});
+					updateJoke(updatedValue);
 				} else {
 					const newValue = {
 						...value,
 						id: "",
 					};
-					jokeCollection.insert(newValue);
+					createJoke(newValue);
 				}
 
 				toast.success(`Joke ${operation} successfully.`);
@@ -85,7 +81,7 @@ export default function JokeForm({ joke }: Props) {
 						className="p-8 space-y-6"
 						onSubmit={(e) => {
 							e.preventDefault();
-							form.handleSubmit();
+							form.handleSubmit().then();
 						}}
 					>
 						<div className="space-y-6">

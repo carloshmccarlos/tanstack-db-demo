@@ -4,21 +4,29 @@ import { v4 as uuidv4 } from "uuid";
 import * as v from "valibot";
 import { db } from "~/db/client";
 import { liked } from "~/db/schema";
+import { fetchUserId } from "~/lib/auth/fetchUserId";
 import { likeJokeSchema } from "~/validation/schema";
 import type { LikeJokeInput } from "~/validation/types";
 
 export const getLikedJokesByUser = createServerFn({
 	method: "GET",
-})
-	.validator(v.string())
-	.handler(async ({ data }: { data: string }) => {
-		try {
-			return await db.select().from(liked).where(eq(liked.userId, data));
-		} catch (error) {
-			console.error("Failed to get likes count:", error);
+}).handler(async () => {
+	try {
+		const { userId } = await fetchUserId();
+		if (!userId) {
 			return [];
 		}
-	});
+		const likedJokes = await db
+			.select()
+			.from(liked)
+			.where(eq(liked.userId, userId));
+
+		return likedJokes;
+	} catch (error) {
+		console.error("Failed to get likes count:", error);
+		return [];
+	}
+});
 
 export const createLikedJoke = createServerFn({
 	method: "POST",
