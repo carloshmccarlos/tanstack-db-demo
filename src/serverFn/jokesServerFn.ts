@@ -6,7 +6,7 @@ import * as v from "valibot";
 import { db } from "~/db/client";
 import { joke } from "~/db/schema";
 import { addJokeSchema, jokeSchema } from "~/validation/schema";
-import type { JokeInsert, JokeSelect, JokeUpdate } from "~/validation/types";
+import type { JokeInsert } from "~/validation/types";
 
 /**
  * This file contains server functions for joke operations using Postgres database.
