@@ -1,7 +1,6 @@
 import { createCollection } from "@tanstack/db";
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { QueryClient } from "@tanstack/react-query";
-import { useRouteContext } from "@tanstack/react-router";
 import {
 	createJoke,
 	deleteJoke,
@@ -22,13 +21,8 @@ export const likedJokesCollection = createCollection(
 	queryCollectionOptions({
 		queryClient,
 		queryKey: ["likedJokes"],
-		queryFn: async () => {
-			const { userId } = useRouteContext({
-				from: "__root__",
-			});
 
-			return getLikedJokesByUser({ data: userId || "" });
-		},
+		queryFn: getLikedJokesByUser,
 		schema: likeJokeSchema,
 		getKey: (item) => item.id,
 		onInsert: async ({ transaction }) => {

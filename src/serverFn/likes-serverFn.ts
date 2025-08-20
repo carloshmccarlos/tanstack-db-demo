@@ -1,33 +1,35 @@
+import { QueryClient } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { and, eq } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
-import * as v from "valibot";
 import { db } from "~/db/client";
 import { liked } from "~/db/schema";
-
+import { authQueries } from "~/lib/auth/queries";
 import { likeJokeSchema } from "~/validation/schema";
 import type { LikeJokeInput } from "~/validation/types";
 
+const queryClient = new QueryClient();
+
 export const getLikedJokesByUser = createServerFn({
 	method: "GET",
-})
-	.validator(v.string())
-	.handler(async ({ data: userId }) => {
-		try {
-			if (!userId) {
-				return [];
-			}
-			const likedJokes = await db
-				.select()
-				.from(liked)
-				.where(eq(liked.userId, userId));
+}).handler(async () => {
+	try {
+		const userId = await queryClient.fetchQuery(authQueries.userId());
 
-			return likedJokes;
-		} catch (error) {
-			console.error("Failed to get likes count:", error);
+		if (!userId) {
 			return [];
 		}
-	});
+		const likedJokes = await db
+			.select()
+			.from(liked)
+			.where(eq(liked.userId, userId));
+
+		return likedJokes;
+	} catch (error) {
+		console.error("Failed to get likes count:", error);
+		return [];
+	}
+});
 
 export const createLikedJoke = createServerFn({
 	method: "POST",
