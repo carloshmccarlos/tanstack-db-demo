@@ -7,7 +7,7 @@ export const authQueries = {
 		return queryOptions({
 			queryKey: [...authQueries.all, "user"],
 			queryFn: getUserSession,
-			staleTime: 5000,
+			staleTime: Infinity,
 		});
 	},
 
@@ -15,7 +15,7 @@ export const authQueries = {
 		return queryOptions({
 			queryKey: [...authQueries.all, "userId"],
 			queryFn: getUserId,
-			staleTime: 5000,
+			staleTime: Infinity,
 		});
 	},
 };
