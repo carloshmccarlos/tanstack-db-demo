@@ -1,6 +1,6 @@
 import { createCollection } from "@tanstack/db";
+import { QueryClient } from "@tanstack/query-core";
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
-import { QueryClient } from "@tanstack/react-query";
 import {
 	createJoke,
 	deleteJoke,
