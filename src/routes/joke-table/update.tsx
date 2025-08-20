@@ -6,22 +6,12 @@ export const Route = createFileRoute("/joke-table/update")({
 	validateSearch: v.object({
 		id: v.string(),
 	}),
-	loaderDeps: ({ search: id }) => {
-		return { id };
-	},
-	loader: async ({ deps }) => {
-		const { id } = deps.id;
-
-		return {
-			id,
-		};
-	},
 
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	const { id } = Route.useLoaderData();
+	const { id } = Route.useSearch();
 
 	return <JokeForm key={id} id={id} />;
 }

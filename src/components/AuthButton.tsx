@@ -4,7 +4,7 @@ import { Button } from "~/components/ui/button";
 import signOut from "~/lib/auth/sign-out";
 
 type AuthButtonProps = {
-	userId?: string;
+	userId: string | null;
 };
 
 export default function AuthButton({ userId }: AuthButtonProps) {

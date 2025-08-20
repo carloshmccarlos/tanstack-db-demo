@@ -33,22 +33,6 @@ export default function JokeDetail({ jokeId, userId }: Props) {
 		}
 	}
 
-	/*	// Show loading state while data is being fetched
-	if (!joke) {
-		return (
-			<div className="max-w-3xl mx-auto p-6">
-				<div className="bg-card rounded-xl shadow-lg p-8 border border-border/50 backdrop-blur-sm">
-					<div className="flex items-center justify-center py-12">
-						<div className="text-center">
-							<div className="text-4xl mb-4">🎭</div>
-							<p className="text-lg text-muted-foreground">Loading joke...</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		);
-	}*/
-
 	return (
 		<div className="max-w-3xl mx-auto p-6">
 			<div className="bg-card rounded-xl shadow-lg p-8 border border-border/50 backdrop-blur-sm">
