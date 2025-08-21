@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { jokeCollection, likedJokesCollection } from "~/db/collections";
 import type { JokeInput, JokeUpdate, LikeJokeInput } from "~/validation/types";
 
@@ -20,7 +21,7 @@ export const removeLikedJoke = ({ removeId }: { removeId: string }) => {
 export const createJoke = (joke: JokeInput) => {
 	jokeCollection.insert({
 		...joke,
-		id: "placeholder",
+		id: uuidv4(),
 	});
 };
 

@@ -34,11 +34,7 @@ export default function JokeForm({ id }: { id?: string }) {
 					};
 					updateJoke(updatedValue);
 				} else {
-					const newValue = {
-						...value,
-						id: "",
-					};
-					createJoke(newValue);
+					createJoke(value);
 				}
 
 				toast.success(`Joke ${operation} successfully.`);

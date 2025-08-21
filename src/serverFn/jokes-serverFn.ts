@@ -43,14 +43,9 @@ export const getJokeById = createServerFn({
 export const createJoke = createServerFn({
 	method: "POST",
 })
-	.validator(addJokeSchema)
-	.handler(async ({ data }) => {
+	.validator(jokeSchema)
+	.handler(async ({ data: newJoke }) => {
 		try {
-			const newJoke: JokeInsert = {
-				...data,
-				id: uuidv4(),
-			};
-
 			const resultId = await db
 				.insert(joke)
 				.values(newJoke)

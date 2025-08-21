@@ -22,7 +22,10 @@ export const likedJokesCollection = createCollection(
         queryClient: dbQueryClient,
         queryKey: ["likedJokes"],
 
-        queryFn: getLikedJokesByUser,
+        queryFn: async () => {
+            const likedJokes = await getLikedJokesByUser();
+            return likedJokes;
+        },
         schema: likeJokeSchema,
         getKey: (item) => item.id,
         onInsert: async ({ transaction }) => {
@@ -30,35 +33,35 @@ export const likedJokesCollection = createCollection(
             await createLikedJoke({ data: newLikedJoke });
         },
 
-        onDelete: async ({ transaction }) => {
-            const { original: deletedLikedJoke } = transaction.mutations[0];
-            await unlikeJoke({ data: deletedLikedJoke });
-        },
-    }),
+		onDelete: async ({ transaction }) => {
+			const { original: deletedLikedJoke } = transaction.mutations[0];
+			await unlikeJoke({ data: deletedLikedJoke });
+		},
+	}),
 );
 
 export const jokeCollection = createCollection(
-    // @ts-ignore
-    queryCollectionOptions({
-        queryClient: dbQueryClient,
-        queryKey: ["Jokes"],
-        queryFn: getJokes,
-        schema: jokeSchema,
-        getKey: (item) => item.id,
+	// @ts-ignore
+	queryCollectionOptions({
+		queryClient: dbQueryClient,
+		queryKey: ["Jokes"],
+		queryFn: getJokes,
+		schema: jokeSchema,
+		getKey: (item) => item.id,
 
-        onInsert: async ({ transaction }) => {
-            const { modified: newJoke } = transaction.mutations[0];
-            await createJoke({ data: newJoke });
-        },
+		onInsert: async ({ transaction }) => {
+			const { modified: newJoke } = transaction.mutations[0];
+			await createJoke({ data: newJoke });
+		},
 
-        onUpdate: async ({ transaction }) => {
-            const { modified: updatedJoke } = transaction.mutations[0];
-            await updateJoke({ data: updatedJoke });
-        },
+		onUpdate: async ({ transaction }) => {
+			const { modified: updatedJoke } = transaction.mutations[0];
+			await updateJoke({ data: updatedJoke });
+		},
 
-        onDelete: async ({ transaction }) => {
-            const { original: deletingJoke } = transaction.mutations[0];
-            await deleteJoke({ data: deletingJoke });
-        },
-    }),
+		onDelete: async ({ transaction }) => {
+			const { original: deletingJoke } = transaction.mutations[0];
+			await deleteJoke({ data: deletingJoke });
+		},
+	}),
 );
