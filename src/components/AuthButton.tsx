@@ -32,13 +32,11 @@ export default function AuthButton({ userId }: AuthButtonProps) {
 		return;
 	}
 
-	function handleSignIn() {
-		router
-			.navigate({
-				to: "/auth",
-				search: { type: "login" },
-			})
-			.then();
+	async function handleSignIn() {
+		await router.navigate({
+			to: "/auth",
+			search: { type: "login" },
+		});
 	}
 
 	if (isAuthenticated) {
