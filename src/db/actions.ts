@@ -16,9 +16,21 @@ export const createLikedJoke = ({ userId, jokeId }: LikeJokeInput) => {
 	});
 };
 
-export const removeLikedJoke = (id: string) => {
-	if (id) {
-		likedJokesCollection.delete(id);
+export const removeLikedJoke = ({
+	userId,
+	removeId,
+}: {
+	userId: string;
+	removeId: string;
+}) => {
+	if (!userId) {
+		toast.error("Please login to unlike a joke.");
+		return;
+	}
+
+	if (removeId) {
+		likedJokesCollection.delete(removeId);
+		return;
 	}
 };
 

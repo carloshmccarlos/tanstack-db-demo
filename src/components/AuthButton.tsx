@@ -1,7 +1,9 @@
-import { useRouter } from "@tanstack/react-router";
+import { useRouteContext, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
+import { authQueries } from "~/lib/auth/queries";
 import signOut from "~/lib/auth/sign-out";
+import { Route } from "~/routes/__root";
 
 type AuthButtonProps = {
 	userId: string | null;
@@ -11,23 +13,32 @@ export default function AuthButton({ userId }: AuthButtonProps) {
 	const router = useRouter();
 	const [isAuthenticated, setIsAuthenticated] = useState(!!userId);
 
+	const { queryClient } = Route.useRouteContext();
+
 	async function handleSignOut() {
 		const result = confirm("Are you sure to sign out?");
 
 		if (result) {
 			setIsAuthenticated(false);
 			await signOut();
-			// Clear the cached session data after logout
+			await queryClient.invalidateQueries({
+				queryKey: authQueries.all,
+			});
+
+			router.invalidate().then();
+			return;
 		}
 
 		return;
 	}
 
 	function handleSignIn() {
-		router.navigate({
-			to: "/auth",
-			search: { type: "login" },
-		});
+		router
+			.navigate({
+				to: "/auth",
+				search: { type: "login" },
+			})
+			.then();
 	}
 
 	if (isAuthenticated) {

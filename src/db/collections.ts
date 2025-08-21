@@ -2,63 +2,63 @@ import { createCollection } from "@tanstack/db";
 import { QueryClient } from "@tanstack/query-core";
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import {
-	createJoke,
-	deleteJoke,
-	getJokes,
-	updateJoke,
+    createJoke,
+    deleteJoke,
+    getJokes,
+    updateJoke,
 } from "~/serverFn/jokes-serverFn";
 import {
-	createLikedJoke,
-	getLikedJokesByUser,
-	unlikeJoke,
+    createLikedJoke,
+    getLikedJokesByUser,
+    unlikeJoke,
 } from "~/serverFn/likes-serverFn";
 import { jokeSchema, likeJokeSchema } from "~/validation/schema";
 
-const queryClient = new QueryClient();
+export const dbQueryClient = new QueryClient();
 
 export const likedJokesCollection = createCollection(
-	// @ts-ignore
-	queryCollectionOptions({
-		queryClient,
-		queryKey: ["likedJokes"],
+    // @ts-ignore
+    queryCollectionOptions({
+        queryClient: dbQueryClient,
+        queryKey: ["likedJokes"],
 
-		queryFn: getLikedJokesByUser,
-		schema: likeJokeSchema,
-		getKey: (item) => item.id,
-		onInsert: async ({ transaction }) => {
-			const { modified: newLikedJoke } = transaction.mutations[0];
-			await createLikedJoke({ data: newLikedJoke });
-		},
+        queryFn: getLikedJokesByUser,
+        schema: likeJokeSchema,
+        getKey: (item) => item.id,
+        onInsert: async ({ transaction }) => {
+            const { modified: newLikedJoke } = transaction.mutations[0];
+            await createLikedJoke({ data: newLikedJoke });
+        },
 
-		onDelete: async ({ transaction }) => {
-			const { original: deletedLikedJoke } = transaction.mutations[0];
-			await unlikeJoke({ data: deletedLikedJoke });
-		},
-	}),
+        onDelete: async ({ transaction }) => {
+            const { original: deletedLikedJoke } = transaction.mutations[0];
+            await unlikeJoke({ data: deletedLikedJoke });
+        },
+    }),
 );
 
 export const jokeCollection = createCollection(
-	// @ts-ignore
-	queryCollectionOptions({
-		queryClient,
-		queryKey: ["Jokes"],
-		queryFn: getJokes,
-		schema: jokeSchema,
-		getKey: (item) => item.id,
+    // @ts-ignore
+    queryCollectionOptions({
+        queryClient: dbQueryClient,
+        queryKey: ["Jokes"],
+        queryFn: getJokes,
+        schema: jokeSchema,
+        getKey: (item) => item.id,
 
-		onInsert: async ({ transaction }) => {
-			const { modified: newJoke } = transaction.mutations[0];
-			await createJoke({ data: newJoke });
-		},
+        onInsert: async ({ transaction }) => {
+            const { modified: newJoke } = transaction.mutations[0];
+            await createJoke({ data: newJoke });
+        },
 
-		onUpdate: async ({ transaction }) => {
-			const { modified: updatedJoke } = transaction.mutations[0];
-			await updateJoke({ data: updatedJoke });
-		},
+        onUpdate: async ({ transaction }) => {
+            const { modified: updatedJoke } = transaction.mutations[0];
+            await updateJoke({ data: updatedJoke });
+        },
 
-		onDelete: async ({ transaction }) => {
-			const { original: deletingJoke } = transaction.mutations[0];
-			await deleteJoke({ data: deletingJoke });
-		},
-	}),
+        onDelete: async ({ transaction }) => {
+            const { original: deletingJoke } = transaction.mutations[0];
+            await deleteJoke({ data: deletingJoke });
+        },
+    }),
 );
