@@ -1,17 +1,11 @@
-import { Link, useLocation, useRouteContext } from "@tanstack/react-router";
+import { Link, useRouteContext } from "@tanstack/react-router";
 import AuthButton from "~/components/AuthButton";
 import GithubLink from "~/components/GithubLink";
 
 export default function Header() {
-	const pathname = useLocation().pathname;
-
 	const { userId } = useRouteContext({
 		from: "__root__",
 	});
-
-	if (pathname === "/auth") {
-		return null;
-	}
 
 	return (
 		<header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

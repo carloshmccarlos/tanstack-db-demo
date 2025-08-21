@@ -71,6 +71,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				<Header />
+				{/*{pathname !== "/auth" && <Header />}*/}
 				{children}
 				<Toaster />
 				<TanStackRouterDevtools position="bottom-right" />

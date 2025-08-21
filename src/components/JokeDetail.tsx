@@ -1,6 +1,7 @@
 import { eq } from "@tanstack/db";
 import { useLiveQuery } from "@tanstack/react-db";
 import { Heart, HeartOff } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { createLikedJoke, removeLikedJoke } from "~/db/actions";
 import { jokeCollection, likedJokesCollection } from "~/db/collections";
@@ -26,9 +27,13 @@ export default function JokeDetail({ jokeId, userId }: Props) {
 	const isLiked = !!likedJokesByUser || false;
 
 	function handleClick() {
+		if (!userId) {
+			toast.error("Please login to operate.");
+			return;
+		}
+
 		if (isLiked) {
 			removeLikedJoke({
-				userId,
 				removeId: likedJokesByUser.id,
 			});
 		} else {

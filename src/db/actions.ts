@@ -1,13 +1,7 @@
-import { toast } from "sonner";
 import { jokeCollection, likedJokesCollection } from "~/db/collections";
 import type { JokeInput, JokeUpdate, LikeJokeInput } from "~/validation/types";
 
 export const createLikedJoke = ({ userId, jokeId }: LikeJokeInput) => {
-	if (!userId) {
-		toast.error("Please login to like a joke.");
-		return;
-	}
-
 	likedJokesCollection.insert({
 		id: "",
 		jokeId,
@@ -16,18 +10,7 @@ export const createLikedJoke = ({ userId, jokeId }: LikeJokeInput) => {
 	});
 };
 
-export const removeLikedJoke = ({
-	userId,
-	removeId,
-}: {
-	userId: string;
-	removeId: string;
-}) => {
-	if (!userId) {
-		toast.error("Please login to unlike a joke.");
-		return;
-	}
-
+export const removeLikedJoke = ({ removeId }: { removeId: string }) => {
 	if (removeId) {
 		likedJokesCollection.delete(removeId);
 		return;
